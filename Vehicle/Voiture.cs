@@ -1,7 +1,12 @@
-namespace Prolème
+namespace TransConnect
 {
-    public class Voiture
+    public class Voiture : Vehicule
     {
-        //pour transporter des passagers dont le nombre est à préciser
+        private int nbrPassagers;
+
+        public Voiture(int nbrPassagers)
+        {
+            this.nbrPassagers = nbrPassagers;
+        }
     }
 }

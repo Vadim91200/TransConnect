@@ -1,11 +1,15 @@
-namespace Prolème
+namespace TransConnect
 {
-    public class Camionnette
+    public class Camionnette : Vehicule
     {
+        private string Usage;
+        public Camionnette(string Usage)
+        {
+            this.Usage = Usage;
+        }
         // {
-        //Camionnette: dont l’usage est à préciser. Exemple les artisans dans la vitrerie ont besoin d’un cadre spécifique 
-        //pour transporter les verres.Seul l’usage sera à définir et pas les accessoires mis en cause.
+        //Camionnette: dont lï¿½usage est ï¿½ prï¿½ciser. Exemple les artisans dans la vitrerie ont besoin dï¿½un cadre spï¿½cifique 
+        //pour transporter les verres.Seul lï¿½usage sera ï¿½ dï¿½finir et pas les accessoires mis en cause.
 
     }
-}
 }
