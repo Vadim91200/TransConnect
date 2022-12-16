@@ -7,9 +7,5 @@
         {
             this.Livraisons = new List<Livraison>();
         }
-        public void commande()
-        {
-            
-        }
     }
 }
