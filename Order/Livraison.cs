@@ -6,12 +6,16 @@ namespace TransConnect
         private string PArrive;
         private bool Estpaye;
         private DateTime durée;
-        public Livraison(string PDepart, string PArrive)
+        private DateTime datedelivraison;
+
+        public DateTime Datedelivraison { get => datedelivraison;}
+        public Livraison(string PDepart, string PArrive, DateTime datelivraison)
         {
             this.PDepart = PDepart;
             this.PArrive = PArrive;
             this.Estpaye = false;
             this.durée = new DateTime();
+            this.datedelivraison = datelivraison;
         }
 
         public void CalculateDistance()

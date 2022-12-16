@@ -1,23 +1,25 @@
+using System.Reflection.Metadata.Ecma335;
+
 namespace TransConnect
 {
     public class Entreprise
     {
         private List<Client> Clients;
-        private List<Chauffeur> Salaries;
+        private List<Salarie> Salaries;
         private List<Vehicule> Vehicules;
         private List<Commande> Commandes;
 
         public Entreprise()
         {
             this.Clients = new List<Client>();
-            this.Salaries = new List<Chauffeur>();
+            this.Salaries = new List<Salarie>();
             this.Vehicules = new List<Vehicule>();
             this.Commandes = new List<Commande>();
         }
 
         public void Embauche(int NSS, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, string telephone, DateTime dateEntree, string poste, int salaire)
         {
-            this.Salaries.Add(new Chauffeur(NSS, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone, dateEntree, poste, salaire));
+            this.Salaries.Add(new Salarie(NSS, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone, dateEntree, poste, salaire));
         }
 
         public void Virée(int NSS)
@@ -44,18 +46,34 @@ namespace TransConnect
             }
         }
 
-        public void Commande(Client c, string départ, string arrivé)
+        public void Commande(Client c, string départ, string arrivé, DateTime DateLivraison)
         {
             try
             {
-                Livraison l = new Livraison(départ, arrivé);
+                Livraison l = new Livraison(départ, arrivé, DateLivraison);
 
-                Commande co = new Commande(c, l, Vehicules[0], Salaries[0], DateTime.Now);
+                Commande co = new Commande(c, l, Vehicules[0], AssignDriver(DateLivraison), DateTime.Now);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
+        }
+        public Chauffeur AssignDriver(DateTime DateLivraison)
+        {
+            foreach ( Salarie s in Salaries)
+            {
+                try
+                {
+                    Chauffeur c = s as Chauffeur;
+                    c.EstLibre(DateLivraison) ? return c : continue;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            return null;
         }
     }
 }
