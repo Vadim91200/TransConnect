@@ -4,20 +4,27 @@ namespace TransConnect
     {
         private string PDepart;
         private string PArrive;
-        private bool Estpaye;
-        private DateTime durée;
-        private DateTime datedelivraison;
+        private int price;
+        private bool ispaid;
+        private DateTime duration;
+        private DateTime deliverydate;
+        private int distance;
 
-        public DateTime Datedelivraison { get => datedelivraison;}
-        public Livraison(string PDepart, string PArrive, DateTime datelivraison)
+        public DateTime Deliverydate { get => deliverydate; set => deliverydate = value; }
+        public Livraison(string PDepart, string PArrive, int price, DateTime datelivraison)
         {
             this.PDepart = PDepart;
             this.PArrive = PArrive;
-            this.Estpaye = false;
-            this.durée = new DateTime();
-            this.datedelivraison = datelivraison;
+            this.price = price;
+            this.ispaid = false;
+            this.duration = new DateTime();
+            this.deliverydate = datelivraison;
         }
-
+        public int Distance
+        {
+            get { return this.distance; }
+        }
+        public int Price { get => price;}
         public void CalculateDistance()
         {
             StreamReader sReader = null;

@@ -2,26 +2,42 @@
 {
     public abstract class Personne
     {
-        private int nss;
-        private string nom { get; set; }
-        private string prenom { get; set; }
+        private long nss;
+        private string name;
+        private string surname;
         private DateTime dateNaissance;
-        private string adressePostale { get; set; }
+        private string postaladdress;
         private string adresseMail { get; set; }
         private string telephone { get; set; }
         public Personne(int NSS, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, string telephone)
         {
             this.nss = NSS;
-            this.nom = nom;
-            this.prenom = prenom;
+            this.surname = nom;
+            this.name = prenom;
             this.dateNaissance = dateNaissance;
-            this.adressePostale = adressePostale;
+            this.postaladdress = adressePostale;
             this.adresseMail = adresseMail;
             this.telephone = telephone;
         }
-        public int NSS
+        public long NSS
         {
             get { return this.nss; }
+        }
+        public string Name
+        {
+            get { return this.name; }
+        }
+        public string Surname
+        {
+            get { return this.surname; }
+        }
+        public string City
+        {
+            get { return this.postaladdress.Split(' ')[3]; }
+        }
+        public string PostalAddress
+        {
+            get { return this.postaladdress; }
         }
     }
 }
