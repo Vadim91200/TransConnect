@@ -23,7 +23,7 @@ namespace TransConnect
         }
         public void Hire(string[] EmployeeInformation)
         {
-            this.Salaries.Add(new Salarie(NSS, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone, dateEntree, poste, salaire));
+            //this.Salaries.Add(new Salarie(NSS, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone, dateEntree, poste, salaire));
         }
 
         public void Fire(int NSS)
@@ -32,7 +32,7 @@ namespace TransConnect
         }
         public void AddClient(string[] ClientInformation)
         {
-            this.Clients.Add(new Client(NSS, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone));
+            //this.Clients.Add(new Client(NSS, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone));
         }
         public void SuppressionClient(long NSS)
         {
@@ -55,10 +55,10 @@ namespace TransConnect
             try
             {
 
-                Livraison l = new Livraison(départ, arrivé, DateLivraison);
+                //Livraison l = new Livraison(départ, arrivé, DateLivraison);
 
-                Commande co = new Commande(FindClient(clientNSS), l, Vehicules[0], AssignDriver(DateLivraison), DateTime.Now);
-                this.Commandes.Add(co);
+                //Commande co = new Commande(FindClient(clientNSS), l, Vehicules[0], AssignDriver(DateLivraison), DateTime.Now);
+                //this.Commandes.Add(co);
             }
             catch (Exception e)
             {
@@ -103,7 +103,7 @@ namespace TransConnect
         }
         public void BuyVehicle(string[] VehicleInformation)
         {
-            this.Salaries.Add(new Vehicule(VehicleInformation));
+            //this.Salaries.Add(new Vehicule(VehicleInformation));
         }
         public void DisplayClientsByAlphabeticalOrder()
         {
