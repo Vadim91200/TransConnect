@@ -8,8 +8,8 @@
         private DateTime dateNaissance;
         private string postaladdress;
         private string adresseMail { get; set; }
-        private string telephone { get; set; }
-        public Personne(int NSS, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, string telephone)
+        private int phone;
+        public Personne(int NSS, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, int telephone)
         {
             this.nss = NSS;
             this.surname = nom;
@@ -17,7 +17,7 @@
             this.dateNaissance = dateNaissance;
             this.postaladdress = adressePostale;
             this.adresseMail = adresseMail;
-            this.telephone = telephone;
+            this.phone = telephone;
         }
         public long NSS
         {

@@ -1,44 +1,58 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System;
+using System.IO;
 using TransConnect;
 
 
 Entreprise TransConnect = ConfigureTheCompany();
 string theresponce = "";
-do
+while (theresponce.ToUpper() != "EXIT")
 {
-    Console.WriteLine("Hello, welcome to the transconnect internal application. Select what action you want to perform: ");
-    Console.WriteLine("1 : Client Module");
-    Console.WriteLine("2 : Employee Module");
-    Console.WriteLine("3 : Order Module");
-    Console.WriteLine("4 : Statistics Module");
-    Console.WriteLine("5 : Other module");
-    theresponce = Console.ReadLine();
-} while (IsAValidInput(theresponce, TypeCode.Int64, 5));
-switch (theresponce)
-{
-    case "1":
-        ClientModule();
-        break;
-    case "2":
-        EmployeeModule();
-        break;
-    case "3":
-        OrderModule();
-        break;
-    case "4":
-        StatisticsModule();
-        break;
-    case "5":
-        Othermodule();
-        break;
-    default:
-        Console.WriteLine("Error index not reconised");
-        break;
+    do
+    {
+        Console.WriteLine("Hello, welcome to the transconnect internal application. Select what action you want to perform: ");
+        Console.WriteLine("1 : Client Module");
+        Console.WriteLine("2 : Employee Module");
+        Console.WriteLine("3 : Order Module");
+        Console.WriteLine("4 : Statistics Module");
+        Console.WriteLine("5 : Other module");
+        Console.WriteLine("6 : Quit the application");
+        theresponce = Console.ReadLine();
+    } while (IsAValidInput(theresponce, TypeCode.Int64, 6));
+    switch (theresponce)
+    {
+        case "1":
+            ClientModule();
+            break;
+        case "2":
+            EmployeeModule();
+            break;
+        case "3":
+            OrderModule();
+            break;
+        case "4":
+            StatisticsModule();
+            break;
+        case "5":
+            Othermodule();
+            break;
+        case "6":
+            Console.WriteLine("Enter exit to quit the application");
+            theresponce = Console.ReadLine();
+            break;
+        default:
+            Console.WriteLine("Error index not reconised");
+            break;
+    }
 }
 Entreprise ConfigureTheCompany()
 {
     Entreprise TC = new Entreprise();
+    string path = "../../../CompanyDetails";
+    if (!Directory.Exists(path))
+    {
+        Directory.CreateDirectory(path);
+    }
     GetClientsList(TC);
     GetEmployeeList(TC);
     GetVehiclesList(TC);
@@ -47,7 +61,7 @@ Entreprise ConfigureTheCompany()
 }
 void GetClientsList(Entreprise TC)
 {
-    string file = "./CompanyDetails/ClientsList.csv";
+    string file = "../../../CompanyDetails/ClientsList.csv";
     StreamReader sReader = null;
     try
     {
@@ -74,7 +88,7 @@ void GetClientsList(Entreprise TC)
 }
 void GetEmployeeList(Entreprise TC)
 {
-    string file = "./CompanyDetails/EmployeeList.csv";
+    string file = "../../../CompanyDetails/EmployeeList.csv";
     StreamReader sReader = null;
     try
     {
@@ -101,7 +115,7 @@ void GetEmployeeList(Entreprise TC)
 }
 void GetVehiclesList(Entreprise TC)
 {
-    string file = "./CompanyDetails/VehiclesList.csv";
+    string file = "../../../CompanyDetails/VehiclesList.csv";
     StreamReader sReader = null;
     try
     {
@@ -128,7 +142,7 @@ void GetVehiclesList(Entreprise TC)
 }
 void GetCommandesList(Entreprise TC)
 {
-    string file = "./CompanyDetails/CommandesList.csv";
+    string file = "../../../CompanyDetails/CommandesList.csv";
     StreamReader sReader = null;
     try
     {
@@ -166,8 +180,8 @@ void ClientModule()
         Console.WriteLine("5 : Display all the client by city");
         Console.WriteLine("6 : Display all the client by amount of purchase");
         Console.WriteLine("7 : Display all the client by all the criters");
-        theresponce = Console.ReadLine();
-    } while (IsAValidInput(theresponce, TypeCode.Int64, 7)); ;
+        reponse = Console.ReadLine();
+    } while (IsAValidInput(reponse, TypeCode.Int64, 7));
     switch (reponse)
     {
         case "1":
@@ -225,8 +239,8 @@ void EmployeeModule()
         Console.WriteLine("1 : Display an organisation chart of the company");
         Console.WriteLine("2 : Hire an employee");
         Console.WriteLine("3 : dismiss an employee");
-        theresponce = Console.ReadLine();
-    } while (IsAValidInput(theresponce, TypeCode.Int64, 3));
+        reponse = Console.ReadLine();
+    } while (IsAValidInput(reponse, TypeCode.Int64, 3));
     switch (reponse)
     {
         case "1":
@@ -264,7 +278,7 @@ void OrderModule()
         Console.WriteLine("1 : Create a new order");
         Console.WriteLine("2 : Modify an order");
         Console.WriteLine("3 : Calculate the price of an order");
-        theresponce = Console.ReadLine();
+        reponse = Console.ReadLine();
     } while (Int32.Parse(reponse) > 3);
     switch (reponse)
     {
@@ -354,8 +368,8 @@ void Othermodule()
         Console.WriteLine("2 : Not implemented");
         Console.WriteLine("3 : Not implemented");
         Console.WriteLine("4 : Not implemented");
-        theresponce = Console.ReadLine();
-    } while (Int32.Parse(reponse) > 4);
+        reponse = Console.ReadLine();
+    } while (IsAValidInput(reponse, TypeCode.Int64, 4));
     switch (reponse)
     {
         case "1":
