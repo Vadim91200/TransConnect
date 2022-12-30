@@ -65,18 +65,11 @@
             Client EnteredClient = null;
             do
             {
-                Console.WriteLine("Enter the client detail separte by a ; (Social security number; Surname; Name,; Date Of Birth; Postal Adress format (number street name city zipcode); Email Adress; Phone");
+                Console.WriteLine("Enter the client detail separte by a ; (Social security number; Surname; Name,; Date Of Birth(American format); Postal Adress format (number street name city zipcode); Email Adress; Phone");
                 ClientDetails = Console.ReadLine().Split(';');
                 try
                 {
-                    long SSN = IConvert.ConvertTo<long>(ClientDetails[0]);
-                    string Surname = IConvert.ConvertTo<string>(ClientDetails[1]);
-                    string Name = IConvert.ConvertTo<string>(ClientDetails[2]);
-                    DateTime DateBirth = IConvert.ConvertTo<DateTime>(ClientDetails[3]);
-                    string PostalAdress = IConvert.ConvertTo<string>(ClientDetails[4]);
-                    string EmailAdress = IConvert.ConvertTo<string>(ClientDetails[5]);
-                    int Phone = IConvert.ConvertTo<int>(ClientDetails[6]);
-                    EnteredClient = new Client(SSN, Surname, Name, DateBirth, PostalAdress, EmailAdress, Phone);
+                    ParseFromArrayString(ClientDetails);
                 }
                 catch (Exception e)
                 {
@@ -84,6 +77,17 @@
                 }
             } while (EnteredClient == null);
             return EnteredClient;
+        }
+        public static Client ParseFromArrayString(String[] ClientDetails)
+        {
+            long SSN = IConvert.ConvertTo<long>(ClientDetails[0]);
+            string Surname = IConvert.ConvertTo<string>(ClientDetails[1]);
+            string Name = IConvert.ConvertTo<string>(ClientDetails[2]);
+            DateTime DateBirth = IConvert.ConvertTo<DateTime>(ClientDetails[3]);
+            string PostalAdress = IConvert.ConvertTo<string>(ClientDetails[4]);
+            string EmailAdress = IConvert.ConvertTo<string>(ClientDetails[5]);
+            int Phone = IConvert.ConvertTo<int>(ClientDetails[6]);
+            return new Client(SSN, Surname, Name, DateBirth, PostalAdress, EmailAdress, Phone);
         }
     }
 }
