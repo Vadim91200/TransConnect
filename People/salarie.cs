@@ -22,17 +22,7 @@
                 EmployeeDetails = Console.ReadLine().Split(';');
                 try
                 {
-                    int SSN = IConvert.ConvertTo<int>(EmployeeDetails[0]);
-                    string Surname = IConvert.ConvertTo<string>(EmployeeDetails[1]);
-                    string Name = IConvert.ConvertTo<string>(EmployeeDetails[2]);
-                    DateTime DateBirth = IConvert.ConvertTo<DateTime>(EmployeeDetails[3]);
-                    string PostalAdress = IConvert.ConvertTo<string>(EmployeeDetails[4]);
-                    string EmailAdress = IConvert.ConvertTo<string>(EmployeeDetails[5]);
-                    int Phone = IConvert.ConvertTo<int>(EmployeeDetails[6]);
-                    DateTime DateHiring = IConvert.ConvertTo<DateTime>(EmployeeDetails[7]);
-                    string Position = IConvert.ConvertTo<string>(EmployeeDetails[8]);
-                    int Salary = IConvert.ConvertTo<int>(EmployeeDetails[9]);
-                    EnteredEmployee = new Salarie(SSN, Surname, Name, DateBirth, PostalAdress, EmailAdress, Phone, DateHiring, Position, Salary);
+                    ParseFromArrayString(EmployeeDetails);
                 }
                 catch (Exception e)
                 {
@@ -40,6 +30,21 @@
                 }
             } while (EnteredEmployee == null);
             return EnteredEmployee;
+        }
+        public static Salarie ParseFromArrayString(String[] ObjectDetails)
+        {
+            int SSN = IConvert.ConvertTo<int>(ObjectDetails[0]);
+            string Surname = IConvert.ConvertTo<string>(ObjectDetails[1]);
+            string Name = IConvert.ConvertTo<string>(ObjectDetails[2]);
+            DateTime DateBirth = IConvert.ConvertTo<DateTime>(ObjectDetails[3]);
+            string PostalAdress = IConvert.ConvertTo<string>(ObjectDetails[4]);
+            string EmailAdress = IConvert.ConvertTo<string>(ObjectDetails[5]);
+            int Phone = IConvert.ConvertTo<int>(ObjectDetails[6]);
+            DateTime DateHiring = IConvert.ConvertTo<DateTime>(ObjectDetails[7]);
+            string Position = IConvert.ConvertTo<string>(ObjectDetails[8]);
+            int Salary = IConvert.ConvertTo<int>(ObjectDetails[9]);
+            return new Salarie(SSN, Surname, Name, DateBirth, PostalAdress, EmailAdress, Phone, DateHiring, Position, Salary);
+
         }
     }
 }

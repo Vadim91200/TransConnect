@@ -71,15 +71,7 @@ void GetClientsList(Entreprise TC)
         string line;
         while ((line = sReader.ReadLine()) != null)
         {
-            string[] ClientDetails = line.Split(';');
-            int SSN = IConvert.ConvertTo<int>(ClientDetails[0]);
-            string Surname = IConvert.ConvertTo<string>(ClientDetails[1]);
-            string Name = IConvert.ConvertTo<string>(ClientDetails[2]);
-            DateTime DateBirth = IConvert.ConvertTo<DateTime>(ClientDetails[3]);
-            string PostalAdress = IConvert.ConvertTo<string>(ClientDetails[4]);
-            string EmailAdress = IConvert.ConvertTo<string>(ClientDetails[5]);
-            int Phone = IConvert.ConvertTo<int>(ClientDetails[6]);
-            TC.AddClient(new Client(SSN, Surname, Name, DateBirth, PostalAdress, EmailAdress, Phone));
+            TC.AddClient(Client.ParseFromArrayString(line.Split(';')));
         }
     }
     catch (IOException e)
@@ -105,18 +97,7 @@ void GetEmployeeList(Entreprise TC)
         string line;
         while ((line = sReader.ReadLine()) != null)
         {
-            string[] EmployeeDetails = line.Split(';');
-            int SSN = IConvert.ConvertTo<int>(EmployeeDetails[0]);
-            string Surname = IConvert.ConvertTo<string>(EmployeeDetails[1]);
-            string Name = IConvert.ConvertTo<string>(EmployeeDetails[2]);
-            DateTime DateBirth = IConvert.ConvertTo<DateTime>(EmployeeDetails[3]);
-            string PostalAdress = IConvert.ConvertTo<string>(EmployeeDetails[4]);
-            string EmailAdress = IConvert.ConvertTo<string>(EmployeeDetails[5]);
-            int Phone = IConvert.ConvertTo<int>(EmployeeDetails[6]);
-            DateTime DateHiring = IConvert.ConvertTo<DateTime>(EmployeeDetails[7]);
-            string Position = IConvert.ConvertTo<string>(EmployeeDetails[8]);
-            int Salary = IConvert.ConvertTo<int>(EmployeeDetails[9]);
-            TC.Hire(new Salarie(SSN, Surname, Name, DateBirth, PostalAdress, EmailAdress, Phone, DateHiring, Position, Salary));
+            TC.Hire((Salarie.ParseFromArrayString(line.Split(';'))));
         }
     }
     catch (IOException e)
@@ -170,23 +151,8 @@ void GetCommandesList(Entreprise TC)
         while ((line = sReader.ReadLine()) != null)
         {
             string[] OrderDetails = line.Split(';');
-            int SSN = IConvert.ConvertTo<int>(OrderDetails[0]);
-            string Surname = IConvert.ConvertTo<string>(OrderDetails[1]);
-            string Name = IConvert.ConvertTo<string>(OrderDetails[2]);
-            DateTime DateBirth = IConvert.ConvertTo<DateTime>(OrderDetails[3]);
-            string PostalAdress = IConvert.ConvertTo<string>(OrderDetails[4]);
-            string EmailAdress = IConvert.ConvertTo<string>(OrderDetails[5]);
-            int Phone = IConvert.ConvertTo<int>(OrderDetails[6]);
-            
-            
-            
-            string departure = IConvert.ConvertTo<string>(OrderDetails[7]);
-            string arrival = IConvert.ConvertTo<string>(OrderDetails[8]);
-            int price = IConvert.ConvertTo<int>(OrderDetails[9]);
-            bool ispaid = IConvert.ConvertTo<bool>(OrderDetails[10]);
-            DateTime duration = IConvert.ConvertTo<DateTime>(OrderDetails[11]);
-            DateTime deliverydate = IConvert.ConvertTo<DateTime>(OrderDetails[12]);
-            int distance = IConvert.ConvertTo<int>(OrderDetails[13]);
+            string[] OrderDetailsD = line.Split(';');
+            OrderDetails.CopyTo(OrderDetailsD, 7);
 
             int SSNd = IConvert.ConvertTo<int>(OrderDetails[14]);
             string Surnamed = IConvert.ConvertTo<string>(OrderDetails[15]);
@@ -198,8 +164,8 @@ void GetCommandesList(Entreprise TC)
             DateTime EntryDate = IConvert.ConvertTo<DateTime>(OrderDetails[21]);
             string Position = IConvert.ConvertTo<string>(OrderDetails[19]);
             int Salary = IConvert.ConvertTo<int>(OrderDetails[20]);
-
-            TC.PlaceOrder(new Commande(new Client(SSN, Surname, Name, DateBirth, PostalAdress, EmailAdress, Phone), new Livraison(departure, arrival, price, deliverydate), new Voiture(4), new Chauffeur(SSNd, Surnamed, Named, DateBirthd, PostalAdressd, EmailAdressd, Phoned, EntryDate, Position, Salary), IConvert.ConvertTo<DateTime>(OrderDetails[21])));
+            
+            TC.PlaceOrder(new Commande(Client.ParseFromArrayString(OrderDetails), Livraison.ParseFromArrayString(OrderDetailsD), new Voiture(4), new Chauffeur(SSNd, Surnamed, Named, DateBirthd, PostalAdressd, EmailAdressd, Phoned, EntryDate, Position, Salary), IConvert.ConvertTo<DateTime>(OrderDetails[21])));
         }
     }
     catch (IOException e)

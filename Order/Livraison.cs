@@ -79,14 +79,7 @@ namespace TransConnect
                 DeliveryDetails = Console.ReadLine().Split(';');
                 try
                 {
-                    string departure = IConvert.ConvertTo<string>(DeliveryDetails[0]);
-                    string arrival = IConvert.ConvertTo<string>(DeliveryDetails[1]);
-                    int price = IConvert.ConvertTo<int>(DeliveryDetails[2]);
-                    bool ispaid = IConvert.ConvertTo<bool>(DeliveryDetails[3]);
-                    DateTime duration = IConvert.ConvertTo<DateTime>(DeliveryDetails[4]);
-                    DateTime deliverydate = IConvert.ConvertTo<DateTime>(DeliveryDetails[5]);
-                    int distance = IConvert.ConvertTo<int>(DeliveryDetails[6]);
-                    EnteredDelivery = new Livraison(departure, arrival, price, deliverydate);
+                    ParseFromArrayString(DeliveryDetails);
                 }
                 catch (Exception e)
                 {
@@ -94,6 +87,17 @@ namespace TransConnect
                 }
             } while (EnteredDelivery == null);
             return EnteredDelivery;
+        }
+        public static Livraison ParseFromArrayString(String[] ObjectDetails)
+        {
+            string departure = IConvert.ConvertTo<string>(ObjectDetails[0]);
+            string arrival = IConvert.ConvertTo<string>(ObjectDetails[1]);
+            int price = IConvert.ConvertTo<int>(ObjectDetails[2]);
+            bool ispaid = IConvert.ConvertTo<bool>(ObjectDetails[3]);
+            DateTime duration = IConvert.ConvertTo<DateTime>(ObjectDetails[4]);
+            DateTime deliverydate = IConvert.ConvertTo<DateTime>(ObjectDetails[5]);
+            int distance = IConvert.ConvertTo<int>(ObjectDetails[6]);
+            return new Livraison(departure, arrival, price, deliverydate);
         }
     }
 }
