@@ -1,6 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System;
 using System.IO;
+using System.Runtime.Intrinsics.X86;
+using System.Xml.Linq;
 using TransConnect;
 
 
@@ -69,8 +71,15 @@ void GetClientsList(Entreprise TC)
         string line;
         while ((line = sReader.ReadLine()) != null)
         {
-            string[] words = line.Split(';');
-            TC.AddClient(words);
+            string[] ClientDetails = line.Split(';');
+            int SSN = IConvert.ConvertTo<int>(ClientDetails[0]);
+            string Surname = IConvert.ConvertTo<string>(ClientDetails[1]);
+            string Name = IConvert.ConvertTo<string>(ClientDetails[2]);
+            DateTime DateBirth = IConvert.ConvertTo<DateTime>(ClientDetails[3]);
+            string PostalAdress = IConvert.ConvertTo<string>(ClientDetails[4]);
+            string EmailAdress = IConvert.ConvertTo<string>(ClientDetails[5]);
+            int Phone = IConvert.ConvertTo<int>(ClientDetails[6]);
+            TC.AddClient(new Client(SSN, Surname, Name, DateBirth, PostalAdress, EmailAdress, Phone));
         }
     }
     catch (IOException e)
@@ -96,8 +105,18 @@ void GetEmployeeList(Entreprise TC)
         string line;
         while ((line = sReader.ReadLine()) != null)
         {
-            string[] words = line.Split(';');
-            TC.Hire(words);
+            string[] EmployeeDetails = line.Split(';');
+            int SSN = IConvert.ConvertTo<int>(EmployeeDetails[0]);
+            string Surname = IConvert.ConvertTo<string>(EmployeeDetails[1]);
+            string Name = IConvert.ConvertTo<string>(EmployeeDetails[2]);
+            DateTime DateBirth = IConvert.ConvertTo<DateTime>(EmployeeDetails[3]);
+            string PostalAdress = IConvert.ConvertTo<string>(EmployeeDetails[4]);
+            string EmailAdress = IConvert.ConvertTo<string>(EmployeeDetails[5]);
+            int Phone = IConvert.ConvertTo<int>(EmployeeDetails[6]);
+            DateTime DateHiring = IConvert.ConvertTo<DateTime>(EmployeeDetails[7]);
+            string Position = IConvert.ConvertTo<string>(EmployeeDetails[8]);
+            int Salary = IConvert.ConvertTo<int>(EmployeeDetails[9]);
+            TC.Hire(new Salarie(SSN, Surname, Name, DateBirth, PostalAdress, EmailAdress, Phone, DateHiring, Position, Salary));
         }
     }
     catch (IOException e)
@@ -150,8 +169,37 @@ void GetCommandesList(Entreprise TC)
         string line;
         while ((line = sReader.ReadLine()) != null)
         {
-            string[] words = line.Split(';');
-            TC.Commande(words);
+            string[] OrderDetails = line.Split(';');
+            int SSN = IConvert.ConvertTo<int>(OrderDetails[0]);
+            string Surname = IConvert.ConvertTo<string>(OrderDetails[1]);
+            string Name = IConvert.ConvertTo<string>(OrderDetails[2]);
+            DateTime DateBirth = IConvert.ConvertTo<DateTime>(OrderDetails[3]);
+            string PostalAdress = IConvert.ConvertTo<string>(OrderDetails[4]);
+            string EmailAdress = IConvert.ConvertTo<string>(OrderDetails[5]);
+            int Phone = IConvert.ConvertTo<int>(OrderDetails[6]);
+            
+            
+            
+            string departure = IConvert.ConvertTo<string>(OrderDetails[7]);
+            string arrival = IConvert.ConvertTo<string>(OrderDetails[8]);
+            int price = IConvert.ConvertTo<int>(OrderDetails[9]);
+            bool ispaid = IConvert.ConvertTo<bool>(OrderDetails[10]);
+            DateTime duration = IConvert.ConvertTo<DateTime>(OrderDetails[11]);
+            DateTime deliverydate = IConvert.ConvertTo<DateTime>(OrderDetails[12]);
+            int distance = IConvert.ConvertTo<int>(OrderDetails[13]);
+
+            int SSNd = IConvert.ConvertTo<int>(OrderDetails[14]);
+            string Surnamed = IConvert.ConvertTo<string>(OrderDetails[15]);
+            string Named = IConvert.ConvertTo<string>(OrderDetails[16]);
+            DateTime DateBirthd = IConvert.ConvertTo<DateTime>(OrderDetails[17]);
+            string PostalAdressd = IConvert.ConvertTo<string>(OrderDetails[18]);
+            string EmailAdressd = IConvert.ConvertTo<string>(OrderDetails[19]);
+            int Phoned = IConvert.ConvertTo<int>(OrderDetails[20]);
+            DateTime EntryDate = IConvert.ConvertTo<DateTime>(OrderDetails[21]);
+            string Position = IConvert.ConvertTo<string>(OrderDetails[19]);
+            int Salary = IConvert.ConvertTo<int>(OrderDetails[20]);
+
+            TC.PlaceOrder(new Commande(new Client(SSN, Surname, Name, DateBirth, PostalAdress, EmailAdress, Phone), new Livraison(departure, arrival, price, deliverydate), new Voiture(4), new Chauffeur(SSNd, Surnamed, Named, DateBirthd, PostalAdressd, EmailAdressd, Phoned, EntryDate, Position, Salary), IConvert.ConvertTo<DateTime>(OrderDetails[21])));
         }
     }
     catch (IOException e)
@@ -185,13 +233,7 @@ void ClientModule()
     switch (reponse)
     {
         case "1":
-            string enterclient;
-            do
-            {
-                Console.WriteLine("Enter the client detail separte by a ; (Social security number; Surname; Name,; Date Of Birth; Postal Adress format (number street name city zipcode); Email Adress; Phone");
-                enterclient = Console.ReadLine();
-            } while (IsAValidInput(enterclient, TypeCode.String, 6));
-            TransConnect.AddClient(enterclient.Split(';'));
+            TransConnect.AddClient(Client.CreateClientFromInput());
             break;
         case "2":
             string enterNSS;
@@ -208,7 +250,7 @@ void ClientModule()
             {
                 Console.WriteLine("Enter the client social security number you want to modify");
                 someinfo = Console.ReadLine();
-            } while  (IsAValidInput(someinfo, TypeCode.Int64, 1000000000000));
+            } while (IsAValidInput(someinfo, TypeCode.Int64, 1000000000000));
             TransConnect.ModifierClient(Int64.Parse(someinfo));
             break;
         case "4":
@@ -247,14 +289,7 @@ void EmployeeModule()
             TransConnect.DisplayOrganisationchart();
             break;
         case "2":
-            string[] enteredemployee;
-            do
-            {
-                Console.WriteLine("Enter the employee detail separte by a ; (Social security number; Surname; Name; Date Of Birth; Postal Adress format (number street name city zipcode); Email Adress; Phone; date of hiring; position; salary");
-                enteredemployee = Console.ReadLine().Split(';');
-                // s.ConvertTo()
-            } while (enteredemployee.Length != 6);
-            TransConnect.Hire(enteredemployee);
+            TransConnect.Hire(Salarie.CreateEmployeeFromInput());
             break;
         case "3":
             int firedemployee;
@@ -283,13 +318,13 @@ void OrderModule()
     switch (reponse)
     {
         case "1":
-            string[] enteredorder;
+            Livraison l = Livraison.CreateDeliveryFromInput();
+            int clientNSS;
             do
             {
-                Console.WriteLine("Enter the detail of the order separte by a ; ( City of departure; City of arrival; Delivery Date; SSN of the client");
-                enteredorder = Console.ReadLine().Split(';');
-            } while (enteredorder.Length != 6);
-            TransConnect.Commande(enteredorder);
+                Console.WriteLine("Enter the SSN of the client");
+            } while (!int.TryParse(Console.ReadLine(), out clientNSS));
+            TransConnect.PlaceOrder(new Commande(TransConnect.FindClient(clientNSS),l, new Voiture(4), TransConnect.AssignDriver(l.DeliveryDate), DateTime.Now));
             break;
         case "2":
             int orderid;

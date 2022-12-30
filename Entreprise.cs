@@ -21,18 +21,19 @@ namespace TransConnect
         {
             Console.WriteLine("Not yey implemented");
         }
-        public void Hire(string[] EmployeeInformation)
+        public void Hire(Salarie s)
         {
-            //this.Salaries.Add(new Salarie(NSS, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone, dateEntree, poste, salaire));
+            this.Salaries.Add(s);
         }
 
         public void Fire(int NSS)
         {
             this.Salaries.Remove(this.Salaries.Find(salarie => salarie.NSS == NSS));
         }
-        public void AddClient(string[] ClientInformation)
+        
+        public void AddClient(Client client)
         {
-            //this.Clients.Add(new Client(NSS, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone));
+            this.Clients.Add(client);
         }
         public void SuppressionClient(long NSS)
         {
@@ -50,22 +51,11 @@ namespace TransConnect
             }
         }
 
-        public void Commande(string[] OrderInformation)
+        public void PlaceOrder(Commande co)
         {
-            try
-            {
-
-                //Livraison l = new Livraison(départ, arrivé, DateLivraison);
-
-                //Commande co = new Commande(FindClient(clientNSS), l, Vehicules[0], AssignDriver(DateLivraison), DateTime.Now);
-                //this.Commandes.Add(co);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            this.Commandes.Add(co);
         }
-        private Chauffeur AssignDriver(DateTime DateLivraison)
+        public Chauffeur AssignDriver(DateTime DateLivraison)
         {
             foreach (Salarie s in Salaries)
             {
@@ -84,22 +74,17 @@ namespace TransConnect
             }
             return null;
         }
-        private Client FindClient(string clientNSS)
+        public Client FindClient(int clientNSS)
         {
             foreach (Client c in Clients)
             {
-                if (c.NSS == Int32.Parse(clientNSS)) ;
+                if (c.NSS == clientNSS) ;
                 {
                     return c;
                 }
             }
-            string[] info;
-            do
-            {
-                Console.WriteLine("Creating new client enter all the information separte by a ';' (surname, name, date of birth, postal adresse, email, telephone");
-                info = Console.ReadLine().Split(';');
-            } while (info.Length != 6);
-            return new Client(Int32.Parse(clientNSS), info[0], info[1], Convert.ToDateTime(info[2]), info[3], info[4], info[5]);
+            Console.WriteLine("Client not found");
+            return Client.CreateClientFromInput();
         }
         public void BuyVehicle(string[] VehicleInformation)
         {
@@ -133,7 +118,7 @@ namespace TransConnect
             {
                 Console.WriteLine("Order not found");
             }
-        }   
+        }
         public void DisplayOrderStatus(int orderid)
         {
             this.Commandes.Find(Commande => Commande.Id == orderid).DisplayStatus();

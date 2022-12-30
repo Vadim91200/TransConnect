@@ -4,7 +4,7 @@
     {
         private List<Livraison> deliveries;
         private int TotalAmount;
-        public Client(int NSS, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, string telephone) : base(NSS, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
+        public Client(long NSS, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, int telephone) : base(NSS, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
         {
             this.deliveries = new List<Livraison>();
             this.TotalAmount = 0;
@@ -58,6 +58,32 @@
             {
                 return -1;
             }
+        }
+        public static Client CreateClientFromInput()
+        {
+            string[] ClientDetails;
+            Client EnteredClient = null;
+            do
+            {
+                Console.WriteLine("Enter the client detail separte by a ; (Social security number; Surname; Name,; Date Of Birth; Postal Adress format (number street name city zipcode); Email Adress; Phone");
+                ClientDetails = Console.ReadLine().Split(';');
+                try
+                {
+                    long SSN = IConvert.ConvertTo<long>(ClientDetails[0]);
+                    string Surname = IConvert.ConvertTo<string>(ClientDetails[1]);
+                    string Name = IConvert.ConvertTo<string>(ClientDetails[2]);
+                    DateTime DateBirth = IConvert.ConvertTo<DateTime>(ClientDetails[3]);
+                    string PostalAdress = IConvert.ConvertTo<string>(ClientDetails[4]);
+                    string EmailAdress = IConvert.ConvertTo<string>(ClientDetails[5]);
+                    int Phone = IConvert.ConvertTo<int>(ClientDetails[6]);
+                    EnteredClient = new Client(SSN, Surname, Name, DateBirth, PostalAdress, EmailAdress, Phone);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            } while (EnteredClient == null);
+            return EnteredClient;
         }
     }
 }
