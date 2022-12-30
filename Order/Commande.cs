@@ -30,6 +30,7 @@ namespace TransConnect
         public void DisplayStatus()
         {
             Console.WriteLine("The order " + this.commandeID + " is in progress");
+            Console.WriteLine("Not yet implemented");
         }
     }
 }

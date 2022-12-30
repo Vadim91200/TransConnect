@@ -1,6 +1,6 @@
 ﻿namespace TransConnect
 {
-    public abstract class Personne
+    public abstract class Personne : IConvert
     {
         private long nss;
         private string name;
@@ -9,7 +9,7 @@
         private string postaladdress;
         private string adresseMail { get; set; }
         private int phone;
-        public Personne(int NSS, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, int telephone)
+        public Personne(long NSS, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, int telephone)
         {
             this.nss = NSS;
             this.surname = nom;
