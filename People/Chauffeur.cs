@@ -17,7 +17,7 @@
         }
         public bool EstLibre(DateTime d)
         {
-            if (this.deliverieslist.Find(Livraison => Livraison.Datedelivraison == d) == null)
+            if (this.deliverieslist.Find(Livraison => Livraison.Deliverydate == d) == null)
             {
                 return true;
             }
