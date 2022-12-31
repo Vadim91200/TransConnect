@@ -1,8 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System;
-using System.IO;
-using System.Runtime.Intrinsics.X86;
-using System.Xml.Linq;
 using TransConnect;
 
 
@@ -207,7 +204,7 @@ void ClientModule()
             {
                 Console.WriteLine("Enter the client social security number you want to erase");
                 enterNSS = Console.ReadLine();
-            } while (IsAValidInput(enterNSS, TypeCode.Int64, 1000000000000));
+            } while (!IsAValidInput(enterNSS, TypeCode.Int64, 1000000000000));
             TransConnect.SuppressionClient(Int64.Parse(enterNSS));
             break;
         case "3":
@@ -216,7 +213,7 @@ void ClientModule()
             {
                 Console.WriteLine("Enter the client social security number you want to modify");
                 someinfo = Console.ReadLine();
-            } while (IsAValidInput(someinfo, TypeCode.Int64, 1000000000000));
+            } while (!IsAValidInput(someinfo, TypeCode.Int64, 1000000000000));
             TransConnect.ModifierClient(Int64.Parse(someinfo));
             break;
         case "4":
@@ -258,12 +255,13 @@ void EmployeeModule()
             TransConnect.Hire(Salarie.CreateEmployeeFromInput());
             break;
         case "3":
-            int firedemployee;
+            string firedemployee;
             do
             {
                 Console.WriteLine("Enter the employee social security number you want to fire");
-            } while (!int.TryParse(Console.ReadLine(), out firedemployee));
-            TransConnect.Fire(firedemployee);
+                firedemployee = Console.ReadLine();
+            } while (!IsAValidInput(firedemployee, TypeCode.Int64, 1000000000000));
+            TransConnect.Fire(Int64.Parse(firedemployee));
             break;
         default:
             Console.WriteLine("Error index not reconised");
@@ -280,33 +278,36 @@ void OrderModule()
         Console.WriteLine("2 : Modify an order");
         Console.WriteLine("3 : Calculate the price of an order");
         reponse = Console.ReadLine();
-    } while (Int32.Parse(reponse) > 3);
+    } while (IsAValidInput(reponse, TypeCode.Int64, 3));
     switch (reponse)
     {
         case "1":
             Livraison l = Livraison.CreateDeliveryFromInput();
-            int clientNSS;
+            string clientNSS;
             do
             {
                 Console.WriteLine("Enter the SSN of the client");
-            } while (!int.TryParse(Console.ReadLine(), out clientNSS));
-            TransConnect.PlaceOrder(new Commande(TransConnect.FindClient(clientNSS),l, new Voiture(4), TransConnect.AssignDriver(l.DeliveryDate), DateTime.Now));
+                clientNSS = Console.ReadLine();
+            } while (!IsAValidInput(clientNSS, TypeCode.Int64, 1000000000000));
+            TransConnect.PlaceOrder(new Commande(TransConnect.FindClient(Int64.Parse(clientNSS)),l, new Voiture(4), TransConnect.AssignDriver(l.DeliveryDate), DateTime.Now));
             break;
         case "2":
-            int orderid;
+            string orderid;
             do
             {
                 Console.WriteLine("Enter the id of the order you want to modify");
-            } while (!int.TryParse(Console.ReadLine(), out orderid));
-            TransConnect.ModifyOrder(orderid);
+                orderid = Console.ReadLine();
+            } while (IsAValidInput(orderid, TypeCode.Int64, 999999));
+            TransConnect.ModifyOrder(Int32.Parse(orderid));
             break;
         case "3":
-            int porderid;
+            string porderid;
             do
             {
                 Console.WriteLine("Enter the id of the order you want to display the price");
-            } while (!int.TryParse(Console.ReadLine(), out porderid));
-            TransConnect.DisplayOrderStatus(porderid);
+                porderid = Console.ReadLine();
+            } while (IsAValidInput(porderid, TypeCode.Int64, 999999));
+            TransConnect.DisplayOrderStatus(Int32.Parse(porderid));
             break;
         default:
             Console.WriteLine("Error index not reconised");
@@ -333,12 +334,22 @@ void StatisticsModule()
             break;
         case "2":
             string[] TimePeriod;
+            Nullable<DateTime> Beginning = null;
+            Nullable<DateTime> End = null;
             do
             {
-                Console.WriteLine("Enter the time period separated by ; ( Begining Date; End Date");
+                Console.WriteLine("Enter the time period separated by ; ( Beginning Date; End Date )");
                 TimePeriod = Console.ReadLine().Split(';');
-            } while (TimePeriod.Length != 2);
-            TransConnect.DisplayAllTheOrdersByTimePeriod(DateTime.Parse(TimePeriod[0]), DateTime.Parse(TimePeriod[1]));
+                try
+                {
+                    Beginning = (DateTime) Convert.ChangeType(TimePeriod[0], TypeCode.DateTime);
+                    End = (DateTime)Convert.ChangeType(TimePeriod[1], TypeCode.DateTime);
+                }catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            } while (Beginning == null || End == null);
+            TransConnect.DisplayAllTheOrdersByTimePeriod((DateTime)Beginning, (DateTime)End);
             break;
         case "3":
             TransConnect.ViewAverageOrderPrices();
@@ -347,12 +358,13 @@ void StatisticsModule()
             TransConnect.DisplayAverageCustomerAccounts();
             break;
         case "5":
-            int CustomerName;
+            string CustomerSSN;
             do
             {
                 Console.WriteLine("Enter the social security number of the custumer");
-            } while (!int.TryParse(Console.ReadLine(), out CustomerName));
-            TransConnect.DisplayTheListOfOrdersForACustomer(CustomerName);
+                CustomerSSN = Console.ReadLine();
+            } while (IsAValidInput(CustomerSSN, TypeCode.Int64, 1000000000000));
+            TransConnect.DisplayTheListOfOrdersForACustomer(Int64.Parse(CustomerSSN));
             break;
         default:
             Console.WriteLine("Error index not reconised");

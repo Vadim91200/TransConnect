@@ -22,7 +22,7 @@
                 EmployeeDetails = Console.ReadLine().Split(';');
                 try
                 {
-                    ParseFromArrayString(EmployeeDetails);
+                    EnteredEmployee = ParseFromArrayString(EmployeeDetails);
                 }
                 catch (Exception e)
                 {
