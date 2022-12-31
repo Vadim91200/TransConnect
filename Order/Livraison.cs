@@ -11,11 +11,10 @@ namespace TransConnect
         private int distance;
         private DateTime Startingdate;
         public DateTime Deliverydate { get => deliverydate; set => deliverydate = value; }
-        public Livraison(string PDepart, string PArrive, int price, DateTime datelivraison)
+        public Livraison(string PDepart, string PArrive, DateTime datelivraison)
         {
             this.departure = PDepart;
             this.arrival = PArrive;
-            this.price = price;
             this.ispaid = false;
             this.Startingdate = DateTime.Now;
             this.deliverydate = datelivraison;
@@ -24,7 +23,7 @@ namespace TransConnect
         {
             get { return this.distance; }
         }
-        public int Price { get => price;}
+        public int Price { get => price; set => this.price = value; }
         public TimeSpan Duration { get => this.Startingdate - DateTime.Now; }
         public DateTime DeliveryDate { get => this.deliverydate; }
         public void Paid()
@@ -75,11 +74,11 @@ namespace TransConnect
             Livraison EnteredDelivery= null;
             do
             {
-                Console.WriteLine("Enter the detail of the delivery separte by a ; ( City of departure; City of arrival; Delivery Date");
+                Console.WriteLine("Enter the detail of the delivery separte by a ; ( City of departure; City of arrival; Delivery Date )");
                 DeliveryDetails = Console.ReadLine().Split(';');
                 try
                 {
-                    ParseFromArrayString(DeliveryDetails);
+                    EnteredDelivery = ParseFromArrayString(DeliveryDetails);
                 }
                 catch (Exception e)
                 {
@@ -92,12 +91,8 @@ namespace TransConnect
         {
             string departure = IConvert.ConvertTo<string>(ObjectDetails[0]);
             string arrival = IConvert.ConvertTo<string>(ObjectDetails[1]);
-            int price = IConvert.ConvertTo<int>(ObjectDetails[2]);
-            bool ispaid = IConvert.ConvertTo<bool>(ObjectDetails[3]);
-            DateTime duration = IConvert.ConvertTo<DateTime>(ObjectDetails[4]);
-            DateTime deliverydate = IConvert.ConvertTo<DateTime>(ObjectDetails[5]);
-            int distance = IConvert.ConvertTo<int>(ObjectDetails[6]);
-            return new Livraison(departure, arrival, price, deliverydate);
+            DateTime deliverydate = IConvert.ConvertTo<DateTime>(ObjectDetails[2]);
+            return new Livraison(departure, arrival, deliverydate);
         }
     }
 }

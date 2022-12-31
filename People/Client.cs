@@ -65,11 +65,11 @@
             Client EnteredClient = null;
             do
             {
-                Console.WriteLine("Enter the client detail separte by a ; (Social security number; Surname; Name,; Date Of Birth(American format); Postal Adress format (number street name city zipcode); Email Adress; Phone");
+                Console.WriteLine("Enter the client detail separte by a ; (Social security number; Surname; Name; Date Of Birth(American format); Postal Adress format (number street name city zipcode); Email Adress; Phone");
                 ClientDetails = Console.ReadLine().Split(';');
                 try
                 {
-                    ParseFromArrayString(ClientDetails);
+                    EnteredClient = ParseFromArrayString(ClientDetails);
                 }
                 catch (Exception e)
                 {

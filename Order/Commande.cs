@@ -17,7 +17,7 @@ namespace TransConnect
             this.vehicule = vehicule;
             this.chauffeur = chauffeur;
             this.commandedate = date;
-            this.commandeID = new Random().Next(100000, 999999);
+            this.commandeID = new Random().Next(0, 999999);
         }
         public int Price
         {

@@ -26,7 +26,7 @@ namespace TransConnect
             this.Salaries.Add(s);
         }
 
-        public void Fire(int NSS)
+        public void Fire(long NSS)
         {
             this.Salaries.Remove(this.Salaries.Find(salarie => salarie.NSS == NSS));
         }
@@ -74,16 +74,16 @@ namespace TransConnect
             }
             return null;
         }
-        public Client FindClient(int clientNSS)
+        public Client FindClient(long clientNSS)
         {
             foreach (Client c in Clients)
             {
-                if (c.NSS == clientNSS) ;
+                if (c.NSS == clientNSS);
                 {
                     return c;
                 }
             }
-            Console.WriteLine("Client not found");
+            Console.WriteLine("Client not found, creating new client");
             return Client.CreateClientFromInput();
         }
         public void BuyVehicle(string[] VehicleInformation)
@@ -174,7 +174,7 @@ namespace TransConnect
             }
             Console.WriteLine("The average price of the orders is " + sum / this.Clients.Count);
         }
-        public void DisplayTheListOfOrdersForACustomer(int NSS)
+        public void DisplayTheListOfOrdersForACustomer(long NSS)
         {
             Console.WriteLine("The customer " + this.Clients.Find(client => client.NSS == NSS).Name + " has made the following orders :");
             foreach (Commande c in this.Commandes)
