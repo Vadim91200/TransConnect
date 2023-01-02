@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+
 namespace TransConnect
 {
     public class Livraison : IConvert
@@ -44,7 +47,7 @@ namespace TransConnect
                     Path.Add(line.Split(',').ToList());
 
                 }
-                FindTheSortestPath(Path);
+                var result = FindTheSortestPath(Path);
             }
             catch (IOException e)
             {
@@ -59,19 +62,10 @@ namespace TransConnect
                 if (sReader != null) { sReader.Close(); }
             }
         }
-        private void FindTheSortestPath(List<List<string>> Path)
-        {
-            Console.WriteLine(Path.ToString);
-            string Destination = Path[0][0];
-            string tmpDeparture = Path[0][1];
-            while (tmpDeparture != (this.departure))
-            {
-            }
-        }
         public static Livraison CreateDeliveryFromInput()
         {
             string[] DeliveryDetails;
-            Livraison EnteredDelivery= null;
+            Livraison EnteredDelivery = null;
             do
             {
                 Console.WriteLine("Enter the detail of the delivery separte by a ; ( City of departure; City of arrival; Delivery Date )");
@@ -79,6 +73,7 @@ namespace TransConnect
                 try
                 {
                     EnteredDelivery = ParseFromArrayString(DeliveryDetails);
+                    EnteredDelivery.CalculateDistance();
                 }
                 catch (Exception e)
                 {
@@ -87,6 +82,7 @@ namespace TransConnect
             } while (EnteredDelivery == null);
             return EnteredDelivery;
         }
+        
         public static Livraison ParseFromArrayString(String[] ObjectDetails)
         {
             string departure = IConvert.ConvertTo<string>(ObjectDetails[0]);

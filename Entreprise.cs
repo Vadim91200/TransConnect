@@ -6,29 +6,25 @@ namespace TransConnect
     public class Entreprise
     {
         private List<Client> Clients;
-        private List<Salarie> Salaries;
+        private OrganizationChart salaries;
         private List<Vehicule> Vehicules;
         private List<Commande> Commandes;
 
         public Entreprise()
         {
             this.Clients = new List<Client>();
-            this.Salaries = new List<Salarie>();
+            this.salaries = new OrganizationChart(new Salarie(1801191547687, "Dupont", "Jean", new DateTime(1980,11,14), "12 rue des oliviers Bures-sur-Yvette 91440", "jean.dupon@transconnect.com", 0647875421,  new DateTime(2022,01,01), "CEO", 1000000, null));
             this.Vehicules = new List<Vehicule>();
             this.Commandes = new List<Commande>();
         }
+        public OrganizationChart Salaries { get => salaries; }
         public void DisplayOrganisationchart()
         {
-            Console.WriteLine("Not yey implemented");
+            this.Salaries.DisplayOrganizationChart(this.Salaries.CEO);
         }
-        public void Hire(Salarie s)
-        {
-            this.Salaries.Add(s);
-        }
-
         public void Fire(long NSS)
         {
-            this.Salaries.Remove(this.Salaries.Find(salarie => salarie.NSS == NSS));
+            this.Salaries.FireEmployee(NSS);
         }
         
         public void AddClient(Client client)
@@ -57,7 +53,7 @@ namespace TransConnect
         }
         public Chauffeur AssignDriver(DateTime DateLivraison)
         {
-            foreach (Salarie s in Salaries)
+            foreach (Salarie s in this.Salaries.CEO.DirectReports)
             {
                 try
                 {
@@ -133,7 +129,7 @@ namespace TransConnect
         }
         public void DisplayNumberOfDeliveriesMadePerDriver()
         {
-            foreach (Salarie s in this.Salaries)
+            foreach (Salarie s in this.Salaries.CEO.DirectReports)
             {
                 try
                 {

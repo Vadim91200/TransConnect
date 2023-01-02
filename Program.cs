@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System;
+using System.Collections.Generic;
 using TransConnect;
 
 
@@ -92,9 +93,11 @@ void GetEmployeeList(Entreprise TC)
     {
         sReader = new StreamReader(file);
         string line;
+        Dictionary<string, Salarie> employeesDictionary = new Dictionary<string, Salarie>();
+        
         while ((line = sReader.ReadLine()) != null)
         {
-            TC.Hire((Salarie.ParseFromArrayString(line.Split(';'))));
+            Salarie.ParseFromArrayString(line.Split(';'), employeesDictionary);
         }
     }
     catch (IOException e)
@@ -252,7 +255,9 @@ void EmployeeModule()
             TransConnect.DisplayOrganisationchart();
             break;
         case "2":
-            TransConnect.Hire(Salarie.CreateEmployeeFromInput());
+            Dictionary<string, Salarie> employeesDictionary = new Dictionary<string, Salarie>();
+            TransConnect.Salaries.CEO.DirectReports.ForEach(x => employeesDictionary.Add(x.Surname, x));
+            Salarie.CreateEmployeeFromInput(employeesDictionary);
             break;
         case "3":
             string firedemployee;
