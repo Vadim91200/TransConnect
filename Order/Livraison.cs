@@ -47,7 +47,7 @@ namespace TransConnect
                     Path.Add(line.Split(',').ToList());
 
                 }
-                var result = FindTheSortestPath(Path);
+                //var result = FindTheSortestPath(Path);
             }
             catch (IOException e)
             {

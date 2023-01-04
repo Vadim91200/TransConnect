@@ -148,24 +148,15 @@ void GetCommandesList(Entreprise TC)
     {
         sReader = new StreamReader(file);
         string line;
+        Dictionary<string, Salarie> employeesDictionary = new Dictionary<string, Salarie>();
         while ((line = sReader.ReadLine()) != null)
         {
             string[] OrderDetails = line.Split(';');
             string[] OrderDetailsD = line.Split(';');
+            string[] OrderDetailsC = line.Split(';');
             OrderDetails.CopyTo(OrderDetailsD, 7);
-
-            int SSNd = IConvert.ConvertTo<int>(OrderDetails[14]);
-            string Surnamed = IConvert.ConvertTo<string>(OrderDetails[15]);
-            string Named = IConvert.ConvertTo<string>(OrderDetails[16]);
-            DateTime DateBirthd = IConvert.ConvertTo<DateTime>(OrderDetails[17]);
-            string PostalAdressd = IConvert.ConvertTo<string>(OrderDetails[18]);
-            string EmailAdressd = IConvert.ConvertTo<string>(OrderDetails[19]);
-            int Phoned = IConvert.ConvertTo<int>(OrderDetails[20]);
-            DateTime EntryDate = IConvert.ConvertTo<DateTime>(OrderDetails[21]);
-            string Position = IConvert.ConvertTo<string>(OrderDetails[19]);
-            int Salary = IConvert.ConvertTo<int>(OrderDetails[20]);
-            
-            TC.PlaceOrder(new Commande(Client.ParseFromArrayString(OrderDetails), Livraison.ParseFromArrayString(OrderDetailsD), new Voiture(4), new Chauffeur(SSNd, Surnamed, Named, DateBirthd, PostalAdressd, EmailAdressd, Phoned, EntryDate, Position, Salary), IConvert.ConvertTo<DateTime>(OrderDetails[21])));
+            OrderDetails.CopyTo(OrderDetailsC, 14);
+            TC.PlaceOrder(new Commande(Client.ParseFromArrayString(OrderDetails), Livraison.ParseFromArrayString(OrderDetailsD), new Voiture(4), (Chauffeur) Salarie.ParseFromArrayString(OrderDetailsC, employeesDictionary), IConvert.ConvertTo<DateTime>(OrderDetails[21])));
         }
     }
     catch (IOException e)
@@ -256,6 +247,7 @@ void EmployeeModule()
             break;
         case "2":
             Dictionary<string, Salarie> employeesDictionary = new Dictionary<string, Salarie>();
+            employeesDictionary.Add(TransConnect.Salaries.CEO.Surname, TransConnect.Salaries.CEO);
             TransConnect.Salaries.CEO.DirectReports.ForEach(x => employeesDictionary.Add(x.Surname, x));
             Salarie.CreateEmployeeFromInput(employeesDictionary);
             break;
