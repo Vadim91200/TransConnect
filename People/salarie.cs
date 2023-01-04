@@ -16,7 +16,7 @@ namespace TransConnect
             this.salaire = salaire;
             this.directreports = new List<Salarie>();
             this.manager = manager;
-            this.manager.directreports.Add(this);
+            if (this.manager != null) { this.manager.directreports.Add(this); }
         }
         public string Title { get => title;}
         public List<Salarie> DirectReports { get => directreports; }
@@ -42,29 +42,34 @@ namespace TransConnect
         }
         public static Salarie ParseFromArrayString(string[] ObjectDetails, Dictionary<string, Salarie> employees)
         {
-            int SSN = IConvert.ConvertTo<int>(ObjectDetails[0]);
-            string Surname = IConvert.ConvertTo<string>(ObjectDetails[1]);
-            string Name = IConvert.ConvertTo<string>(ObjectDetails[2]);
+            long SSN = IConvert.ConvertTo<long>(ObjectDetails[0]);
+            string Surname = (IConvert.ConvertTo<string>(ObjectDetails[1])).Trim();
+            string Name = (IConvert.ConvertTo<string>(ObjectDetails[2])).Trim();
             DateTime DateBirth = IConvert.ConvertTo<DateTime>(ObjectDetails[3]);
-            string PostalAdress = IConvert.ConvertTo<string>(ObjectDetails[4]);
-            string EmailAdress = IConvert.ConvertTo<string>(ObjectDetails[5]);
+            string PostalAdress = (IConvert.ConvertTo<string>(ObjectDetails[4])).Trim();
+            string EmailAdress = (IConvert.ConvertTo<string>(ObjectDetails[5])).Trim();
             int Phone = IConvert.ConvertTo<int>(ObjectDetails[6]);
             DateTime DateHiring = IConvert.ConvertTo<DateTime>(ObjectDetails[7]);
-            string Position = IConvert.ConvertTo<string>(ObjectDetails[8]);
+            string Position = (IConvert.ConvertTo<string>(ObjectDetails[8])).Trim();
             int Salary = IConvert.ConvertTo<int>(ObjectDetails[9]);
-            string ManagerName = IConvert.ConvertTo<string>(ObjectDetails[10]);
-            string[] directReportNames = IConvert.ConvertTo<string[]>(ObjectDetails.Skip(11).ToList());
+            string ManagerName = (IConvert.ConvertTo<string>(ObjectDetails[10])).Trim();
+            string ReportNames = IConvert.ConvertTo<string>(ObjectDetails[11]);
+            string[] directReportNames = ReportNames.Split(' ');
             Salarie Manager = null;
             if (ManagerName != "")
             {
+                employees.ToList().ForEach(x => Console.WriteLine(x.Key));
                 Manager = employees[ManagerName];
             }
             Salarie employee = new Salarie(SSN, Surname, Name, DateBirth, PostalAdress, EmailAdress, Phone, DateHiring, Position, Salary, Manager);
-            foreach (var directReportName in directReportNames)
+            if (directReportNames.Length > 0 && directReportNames[0] != "")
             {
-                Salarie directReport = employees[directReportName];
-                directReport.Manager = employee;
-                employee.DirectReports.Add(directReport);
+                foreach (var directReportName in directReportNames)
+                {
+                    Salarie directReport = employees[directReportName];
+                    directReport.Manager = employee;
+                    employee.DirectReports.Add(directReport);
+                }
             }
             employees[Surname] = employee;
             return employee;
