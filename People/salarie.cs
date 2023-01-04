@@ -58,7 +58,6 @@ namespace TransConnect
             Salarie Manager = null;
             if (ManagerName != "")
             {
-                employees.ToList().ForEach(x => Console.WriteLine(x.Key));
                 Manager = employees[ManagerName];
             }
             Salarie employee = new Salarie(SSN, Surname, Name, DateBirth, PostalAdress, EmailAdress, Phone, DateHiring, Position, Salary, Manager);
