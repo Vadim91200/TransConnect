@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Formats.Asn1;
+using System.Xml.Linq;
 
 namespace TransConnect
 {
@@ -29,13 +30,23 @@ namespace TransConnect
             {
                 Console.WriteLine("Enter the employee detail separte by a ; (Social security number; Surname; Name; Date Of Birth; Postal Adress format (number street name city zipcode); Email Adress; Phone; date of hiring; position; salary; Manager Surname;'Leave empty'");
                 EmployeeDetails = Console.ReadLine().Split(';');
+                StreamWriter sWriter = null;
                 try
                 {
                     EnteredEmployee = ParseFromArrayString(EmployeeDetails, employees);
+                    FileStream fileStream = new FileStream("../../../CompanyDetails/EmployeeList.csv", FileMode.Append, FileAccess.Write);
+
+                    sWriter = new StreamWriter(fileStream);
+                    sWriter.Write(string.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11}\n", EmployeeDetails[0], EmployeeDetails[1], EmployeeDetails[2], EmployeeDetails[3], EmployeeDetails[4], EmployeeDetails[5], EmployeeDetails[6], EmployeeDetails[7], EmployeeDetails[8], EmployeeDetails[9], EmployeeDetails[10], EmployeeDetails[11]));
+                
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
+                }
+                finally
+                {
+                    if (sWriter != null) sWriter.Close();
                 }
             } while (EnteredEmployee == null);
             return EnteredEmployee;
@@ -60,7 +71,15 @@ namespace TransConnect
             {
                 Manager = employees[ManagerName];
             }
-            Salarie employee = new Salarie(SSN, Surname, Name, DateBirth, PostalAdress, EmailAdress, Phone, DateHiring, Position, Salary, Manager);
+            Salarie employee = null;
+            if (Position.ToUpper() == "CHAUFFEUR")
+            {
+                employee = new Chauffeur(SSN, Surname, Name, DateBirth, PostalAdress, EmailAdress, Phone, DateHiring, Position, Salary, Manager);
+            }
+            else
+            {
+                employee = new Salarie(SSN, Surname, Name, DateBirth, PostalAdress, EmailAdress, Phone, DateHiring, Position, Salary, Manager);
+            }
             if (directReportNames.Length > 0 && directReportNames[0] != "")
             {
                 foreach (var directReportName in directReportNames)

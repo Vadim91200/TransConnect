@@ -50,29 +50,50 @@ namespace TransConnect
         public void PlaceOrder(Commande co)
         {
             this.Commandes.Add(co);
+            StreamWriter sWriter = null;
+            try
+            {
+                FileStream fileStream = new FileStream("../../../CompanyDetails/CommandesList.csv", FileMode.Append, FileAccess.Write);
+                
+                sWriter = new StreamWriter(fileStream);
+                sWriter.Write(string.Format("{0},{1},{2},{3}\n", co.CommandeID, co.Client.Name, co.Chauffeur.Name, co.CommandeDate));
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                if (sWriter != null) sWriter.Close();
+            }
         }
         public Chauffeur AssignDriver(DateTime DateLivraison)
         {
-            foreach (Salarie s in this.Salaries.CEO.DirectReports)
+            foreach (Salarie s in this.Salaries.GetAllEmployees(this.Salaries.CEO))
             {
                 try
                 {
                     Chauffeur c = s as Chauffeur;
-                    if (c.EstLibre(DateLivraison))
+                    if (c != null)
                     {
-                        return c;
+                        if (c.EstLibre(DateLivraison))
+                        {
+                            return c;
+                        }
                     }
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
                 }
+
             }
             return null;
         }
         public Client FindClient(long clientNSS)
         {
-            foreach (Client c in Clients)
+            foreach (Client c in this.Clients)
             {
                 if (c.NSS == clientNSS);
                 {

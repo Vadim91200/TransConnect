@@ -19,6 +19,15 @@ namespace TransConnect
             this.commandedate = date;
             this.commandeID = new Random().Next(0, 999999);
         }
+        public Commande(Client client, Livraison livraison, Vehicule vehicule, Chauffeur chauffeur, DateTime date, int nbr)
+        {
+            this.client = client;
+            this.deliverie = livraison;
+            this.vehicule = vehicule;
+            this.chauffeur = chauffeur;
+            this.commandedate = date;
+            this.commandeID = nbr;
+        }
         public int Price
         {
             get { return this.chauffeur.getTJ * deliverie.Distance; }
@@ -27,6 +36,8 @@ namespace TransConnect
         public int Id { get => commandeID; }
         public DateTime CommandeDate { get { return this.commandedate; } }
         public Livraison Deliverie { get => deliverie; }
+        public Salarie Chauffeur { get => chauffeur; }
+        public int CommandeID { get => commandeID; }
         public void DisplayStatus()
         {
             Console.WriteLine("The order " + this.commandeID + " is in progress");

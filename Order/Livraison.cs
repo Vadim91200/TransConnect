@@ -15,7 +15,7 @@ namespace TransConnect
         private int distance;
         private DateTime Startingdate;
         private List<String> delivery_Route;
-        public DateTime Deliverydate { get => this.deliverydate; }
+        public DateTime Deliverydate { get => this.deliverydate; set => this.deliverydate = value; }
         public Livraison(string PDepart, string PArrive, DateTime datelivraison)
         {
             this.departure = PDepart;
@@ -185,14 +185,25 @@ namespace TransConnect
             {
                 Console.WriteLine("Enter the detail of the delivery separte by a ; ( City of departure; City of arrival; Delivery Date )");
                 DeliveryDetails = Console.ReadLine().Split(';');
+                StreamWriter sWriter = null;
                 try
                 {
                     EnteredDelivery = ParseFromArrayString(DeliveryDetails);
                     EnteredDelivery.CalculateDistance();
+                    
+                    FileStream fileStream = new FileStream("../../../CompanyDetails/DeliveryList.csv", FileMode.Append, FileAccess.Write);
+
+                    sWriter = new StreamWriter(fileStream);
+                    sWriter.Write(string.Format("{0};{1};{2};{3}\n", DeliveryDetails[0], DeliveryDetails[1], DeliveryDetails[2], DeliveryDetails[3]));
+
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
+                }
+                finally
+                {
+                    if (sWriter != null) sWriter.Close();
                 }
             } while (EnteredDelivery == null);
             return EnteredDelivery;
