@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace TransConnect
 {
@@ -40,7 +41,6 @@ namespace TransConnect
             StreamReader sReader = null;
             try
             {
-                AddNewCity();
                 sReader = new StreamReader("../../../Distances.csv");
                 string line;
                 List<List<string>> Path = new List<List<string>>(); 
@@ -146,7 +146,8 @@ namespace TransConnect
 
             // Reverse the list so it starts at the start city
             path.Reverse();
-
+            this.distance = distances[this.arrival];
+            Console.WriteLine(this.distance);
             return path;
         }
         public void AddNewCity()
@@ -168,9 +169,9 @@ namespace TransConnect
                 sWriter.Write(string.Format("{0},{1},{2},{3}\n", CDeparture, CArrival, distance, Durationv));
 
             }
-            catch
+            catch (Exception e)
             {
-                
+                Console.WriteLine(e.Message);
             }
             finally
             {
