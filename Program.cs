@@ -94,7 +94,7 @@ void GetEmployeeList(Entreprise TC)
         sReader = new StreamReader(file);
         string line;
         Dictionary<string, Salarie> employeesDictionary = new Dictionary<string, Salarie>();
-        
+        employeesDictionary.Add(TC.Salaries.CEO.Surname, TC.Salaries.CEO);
         while ((line = sReader.ReadLine()) != null)
         {
             Salarie.ParseFromArrayString(line.Split(';'), employeesDictionary);
@@ -140,6 +140,33 @@ void GetVehiclesList(Entreprise TC)
         if (sReader != null) { sReader.Close(); }
     }
 }
+Livraison GetDeliveryList()
+{
+    string file = "../../../CompanyDetails/DeliveryList.csv";
+    StreamReader sReader = null;
+    try
+    {
+        sReader = new StreamReader(file);
+        string line;
+        while ((line = sReader.ReadLine()) != null)
+        {
+            return Livraison.ParseFromArrayString(line.Split(';'));
+        }
+    }
+    catch (IOException e)
+    {
+        using (FileStream fs = File.Create(file));
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e.Message);
+    }
+    finally
+    {
+        if (sReader != null) { sReader.Close(); }
+    }
+    return null;
+}
 void GetCommandesList(Entreprise TC)
 {
     string file = "../../../CompanyDetails/CommandesList.csv";
@@ -148,15 +175,10 @@ void GetCommandesList(Entreprise TC)
     {
         sReader = new StreamReader(file);
         string line;
-        Dictionary<string, Salarie> employeesDictionary = new Dictionary<string, Salarie>();
         while ((line = sReader.ReadLine()) != null)
         {
             string[] OrderDetails = line.Split(';');
-            string[] OrderDetailsD = line.Split(';');
-            string[] OrderDetailsC = line.Split(';');
-            OrderDetails.CopyTo(OrderDetailsD, 7);
-            OrderDetails.CopyTo(OrderDetailsC, 14);
-            TC.PlaceOrder(new Commande(Client.ParseFromArrayString(OrderDetails), Livraison.ParseFromArrayString(OrderDetailsD), new Voiture(4), (Chauffeur) Salarie.ParseFromArrayString(OrderDetailsC, employeesDictionary), IConvert.ConvertTo<DateTime>(OrderDetails[21])));
+            TC.PlaceOrder(new Commande(TC.FindClient(Int64.Parse(OrderDetails[0])), GetDeliveryList(), new Voiture(4), (Chauffeur) TC.Salaries.FindEmployeeBySocialSecurityNumber(Int64.Parse(OrderDetails[1])), IConvert.ConvertTo<DateTime>(OrderDetails[2]), IConvert.ConvertTo<int>(OrderDetails[3])));
         }
     }
     catch (IOException e)

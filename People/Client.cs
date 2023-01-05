@@ -1,4 +1,6 @@
-﻿namespace TransConnect
+﻿using System.Formats.Asn1;
+
+namespace TransConnect
 {
     public class Client : Personne
     {
@@ -67,13 +69,22 @@
             {
                 Console.WriteLine("Enter the client detail separte by a ; (Social security number; Surname; Name; Date Of Birth(American format); Postal Adress format (number street name city zipcode); Email Adress; Phone");
                 ClientDetails = Console.ReadLine().Split(';');
+                StreamWriter sWriter = null;
                 try
                 {
                     EnteredClient = ParseFromArrayString(ClientDetails);
+                    FileStream fileStream = new FileStream("../../../CompanyDetails/ClientsList.csv", FileMode.Append, FileAccess.Write);
+
+                    sWriter = new StreamWriter(fileStream);
+                    sWriter.Write(string.Format("{0};{1};{2};{3};{4};{5};{6} \n", ClientDetails[0], ClientDetails[1], ClientDetails[2], ClientDetails[3], ClientDetails[4], ClientDetails[5], ClientDetails[6]));
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
+                }
+                finally
+                {
+                    if (sWriter != null) sWriter.Close();
                 }
             } while (EnteredClient == null);
             return EnteredClient;

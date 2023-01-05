@@ -40,7 +40,7 @@ namespace TransConnect
                 }
             }
         }
-        private Salarie FindEmployeeBySocialSecurityNumber(long socialSecurityNumber, Salarie employee = null)
+        public Salarie FindEmployeeBySocialSecurityNumber(long socialSecurityNumber, Salarie employee = null)
         {
             if (employee.NSS == socialSecurityNumber)
             {
@@ -57,6 +57,25 @@ namespace TransConnect
             }
 
             return null;
+        }
+        public List<Salarie> GetAllEmployees(Salarie employee)
+        {
+            // Create a list to hold the employees
+            List<Salarie> allEmployees = new List<Salarie>();
+
+            // Add the current employee to the list
+            allEmployees.Add(employee);
+
+            // Add the current employee's direct reports to the list
+            allEmployees.AddRange(employee.DirectReports);
+
+            // Recursively add the direct reports' subemployees to the list
+            foreach (Salarie directReport in employee.DirectReports)
+            {
+                allEmployees.AddRange(GetAllEmployees(directReport));
+            }
+
+            return allEmployees;
         }
     }
 }
