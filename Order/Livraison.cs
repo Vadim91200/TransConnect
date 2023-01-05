@@ -15,7 +15,7 @@ namespace TransConnect
         private int distance;
         private DateTime Startingdate;
         private List<String> delivery_Route;
-        public DateTime Deliverydate { get => deliverydate; set => deliverydate = value; }
+        public DateTime Deliverydate { get => this.deliverydate; }
         public Livraison(string PDepart, string PArrive, DateTime datelivraison)
         {
             this.departure = PDepart;
@@ -147,7 +147,6 @@ namespace TransConnect
             // Reverse the list so it starts at the start city
             path.Reverse();
             this.distance = distances[this.arrival];
-            Console.WriteLine(this.distance);
             return path;
         }
         public void AddNewCity()
