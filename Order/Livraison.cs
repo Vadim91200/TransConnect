@@ -206,7 +206,7 @@ namespace TransConnect
                     FileStream fileStream = new FileStream("../../../CompanyDetails/DeliveryList.csv", FileMode.Append, FileAccess.Write);
 
                     sWriter = new StreamWriter(fileStream);
-                    sWriter.Write(string.Format("{0};{1};{2};{3};{4}\n", DeliveryDetails[0], DeliveryDetails[1], DeliveryDetails[2], DeliveryDetails[3], DeliveryDetails[4]));
+                    sWriter.Write(string.Format("{0};{1};{2};{3};{4}\n", EnteredDelivery.DeliveryID, DeliveryDetails[0], DeliveryDetails[1], DeliveryDetails[2], DeliveryDetails[3]));
 
                 }
                 catch (Exception e)
