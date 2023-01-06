@@ -29,7 +29,7 @@ namespace TransConnect
         }
         public void FireEmployee(long nss)
         {
-            Salarie employeeToFire = FindEmployeeBySocialSecurityNumber(nss);
+            Salarie employeeToFire = FindEmployeeBySocialSecurityNumber(nss, this.ceo);
             if (employeeToFire != null)
             {
                 // Find the employee's manager
@@ -40,7 +40,7 @@ namespace TransConnect
                 }
             }
         }
-        public Salarie FindEmployeeBySocialSecurityNumber(long socialSecurityNumber, Salarie employee = null)
+        public Salarie FindEmployeeBySocialSecurityNumber(long socialSecurityNumber, Salarie employee)
         {
             if (employee.NSS == socialSecurityNumber)
             {

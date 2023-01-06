@@ -15,22 +15,34 @@ namespace TransConnect
         private int distance;
         private DateTime Startingdate;
         private List<String> delivery_Route;
+        private string deliveredproduct;
+        private int deliveryID;
         public DateTime Deliverydate { get => this.deliverydate; set => this.deliverydate = value; }
-        public Livraison(string PDepart, string PArrive, DateTime datelivraison)
+        public Livraison(string deliveredproduct, string PDepart, string PArrive, DateTime datelivraison)
         {
+            this.deliveredproduct = deliveredproduct;
             this.departure = PDepart;
             this.arrival = PArrive;
             this.ispaid = false;
             this.Startingdate = DateTime.Now;
             this.deliverydate = datelivraison;
+            this.deliveryID = new Random().Next(0, 999999);
         }
-        public int Distance
+        public Livraison(string deliveredproduct, string PDepart, string PArrive, DateTime datelivraison, int id)
         {
-            get { return this.distance; }
+            this.deliveredproduct = deliveredproduct;
+            this.departure = PDepart;
+            this.arrival = PArrive;
+            this.ispaid = false;
+            this.Startingdate = DateTime.Now;
+            this.deliverydate = datelivraison;
+            this.deliveryID =id;
         }
+        public int Distance { get => this.distance; }
         public int Price { get => price; set => this.price = value; }
         public TimeSpan Duration { get => this.Startingdate - DateTime.Now; }
         public DateTime DeliveryDate { get => this.deliverydate; }
+        public int DeliveryID { get => this.deliveryID; }
         public void Paid()
         {
             this.ispaid = true;
@@ -183,18 +195,18 @@ namespace TransConnect
             Livraison EnteredDelivery = null;
             do
             {
-                Console.WriteLine("Enter the detail of the delivery separte by a ; ( City of departure; City of arrival; Delivery Date )");
+                Console.WriteLine("Enter the detail of the delivery separte by a ; ( Delivered Product; City of departure; City of arrival; Delivery Date )");
                 DeliveryDetails = Console.ReadLine().Split(';');
                 StreamWriter sWriter = null;
                 try
                 {
-                    EnteredDelivery = ParseFromArrayString(DeliveryDetails);
+                    EnteredDelivery = ParseFromArrayString(DeliveryDetails, false);
                     EnteredDelivery.CalculateDistance();
                     
                     FileStream fileStream = new FileStream("../../../CompanyDetails/DeliveryList.csv", FileMode.Append, FileAccess.Write);
 
                     sWriter = new StreamWriter(fileStream);
-                    sWriter.Write(string.Format("{0};{1};{2};{3}\n", DeliveryDetails[0], DeliveryDetails[1], DeliveryDetails[2], DeliveryDetails[3]));
+                    sWriter.Write(string.Format("{0};{1};{2};{3};{4}\n", DeliveryDetails[0], DeliveryDetails[1], DeliveryDetails[2], DeliveryDetails[3], DeliveryDetails[4]));
 
                 }
                 catch (Exception e)
@@ -209,12 +221,26 @@ namespace TransConnect
             return EnteredDelivery;
         }
         
-        public static Livraison ParseFromArrayString(String[] ObjectDetails)
+        public static Livraison ParseFromArrayString(String[] ObjectDetails, bool nbr)
         {
-            string departure = IConvert.ConvertTo<string>(ObjectDetails[0]);
-            string arrival = IConvert.ConvertTo<string>(ObjectDetails[1]);
-            DateTime deliverydate = IConvert.ConvertTo<DateTime>(ObjectDetails[2]);
-            return new Livraison(departure, arrival, deliverydate);
+            if (nbr)
+            {
+                string Product = IConvert.ConvertTo<string>(ObjectDetails[1]);
+                string departure = IConvert.ConvertTo<string>(ObjectDetails[2]);
+                string arrival = IConvert.ConvertTo<string>(ObjectDetails[3]);
+                DateTime deliverydate = IConvert.ConvertTo<DateTime>(ObjectDetails[4]);
+                int ID = IConvert.ConvertTo<int>(ObjectDetails[0]);
+                return new Livraison(Product, departure, arrival, deliverydate, ID);
+            }
+            else
+            {
+                string Product = IConvert.ConvertTo<string>(ObjectDetails[0]);
+                string departure = IConvert.ConvertTo<string>(ObjectDetails[1]);
+                string arrival = IConvert.ConvertTo<string>(ObjectDetails[2]);
+                DateTime deliverydate = IConvert.ConvertTo<DateTime>(ObjectDetails[3]);
+                return new Livraison(Product, departure, arrival, deliverydate);
+            }
+            
         }
     }
 }
