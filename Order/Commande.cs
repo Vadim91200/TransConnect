@@ -10,15 +10,6 @@ namespace TransConnect
         private DateTime commandedate;
         private int commandeID;
 
-        public Commande(Client client, Livraison livraison, Vehicule vehicule, Chauffeur chauffeur, DateTime date)
-        {
-            this.client = client;
-            this.deliverie = livraison;
-            this.vehicule = vehicule;
-            this.chauffeur = chauffeur;
-            this.commandedate = date;
-            this.commandeID = new Random().Next(0, 999999);
-        }
         public Commande(Client client, Livraison livraison, Vehicule vehicule, Chauffeur chauffeur, DateTime date, int nbr)
         {
             this.client = client;

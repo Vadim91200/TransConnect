@@ -140,7 +140,7 @@ void GetVehiclesList(Entreprise TC)
         if (sReader != null) { sReader.Close(); }
     }
 }
-Livraison GetDeliveryList()
+Livraison GetDeliveryList(int OrderID)
 {
     string file = "../../../CompanyDetails/DeliveryList.csv";
     StreamReader sReader = null;
@@ -150,7 +150,11 @@ Livraison GetDeliveryList()
         string line;
         while ((line = sReader.ReadLine()) != null)
         {
-            return Livraison.ParseFromArrayString(line.Split(';'));
+            Livraison livraison = Livraison.ParseFromArrayString(line.Split(';'), true);
+            if (livraison.DeliveryID == OrderID)
+            {
+                return livraison;
+            }
         }
     }
     catch (IOException e)
@@ -178,7 +182,8 @@ void GetCommandesList(Entreprise TC)
         while ((line = sReader.ReadLine()) != null)
         {
             string[] OrderDetails = line.Split(';');
-            TC.PlaceOrder(new Commande(TC.FindClient(Int64.Parse(OrderDetails[0])), GetDeliveryList(), new Voiture(4), (Chauffeur) TC.Salaries.FindEmployeeBySocialSecurityNumber(Int64.Parse(OrderDetails[1])), IConvert.ConvertTo<DateTime>(OrderDetails[2]), IConvert.ConvertTo<int>(OrderDetails[3])));
+            Commande c = new Commande(TC.FindClient(Int64.Parse(OrderDetails[1])), GetDeliveryList(Int32.Parse(OrderDetails[0])), new Voiture(4), (Chauffeur)TC.Salaries.FindEmployeeBySocialSecurityNumber(Int64.Parse(OrderDetails[2]), TC.Salaries.CEO), IConvert.ConvertTo<DateTime>(OrderDetails[3]), Int32.Parse(OrderDetails[0]));
+            TC.PlaceOrder(c,false);
         }
     }
     catch (IOException e)
@@ -308,7 +313,7 @@ void OrderModule()
                 Console.WriteLine("Enter the SSN of the client");
                 clientNSS = Console.ReadLine();
             } while (!IsAValidInput(clientNSS, TypeCode.Int64, 1000000000000));
-            TransConnect.PlaceOrder(new Commande(TransConnect.FindClient(Int64.Parse(clientNSS)),l, new Voiture(4), TransConnect.AssignDriver(l.DeliveryDate), DateTime.Now));
+            TransConnect.PlaceOrder(new Commande(TransConnect.FindClient(Int64.Parse(clientNSS)),l, new Voiture(4), TransConnect.AssignDriver(l.DeliveryDate), DateTime.Now, l.DeliveryID), true);
             break;
         case "2":
             string orderid;
@@ -382,7 +387,7 @@ void StatisticsModule()
             {
                 Console.WriteLine("Enter the social security number of the custumer");
                 CustomerSSN = Console.ReadLine();
-            } while (IsAValidInput(CustomerSSN, TypeCode.Int64, 1000000000000));
+            } while (!IsAValidInput(CustomerSSN, TypeCode.Int64, 1000000000000));
             TransConnect.DisplayTheListOfOrdersForACustomer(Int64.Parse(CustomerSSN));
             break;
         default:

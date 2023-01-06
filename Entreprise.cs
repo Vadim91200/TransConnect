@@ -47,25 +47,28 @@ namespace TransConnect
             }
         }
 
-        public void PlaceOrder(Commande co)
+        public void PlaceOrder(Commande co, bool insert)
         {
             this.Commandes.Add(co);
-            StreamWriter sWriter = null;
-            try
+            if (insert)
             {
-                FileStream fileStream = new FileStream("../../../CompanyDetails/CommandesList.csv", FileMode.Append, FileAccess.Write);
-                
-                sWriter = new StreamWriter(fileStream);
-                sWriter.Write(string.Format("{0},{1},{2},{3}\n", co.CommandeID, co.Client.Name, co.Chauffeur.Name, co.CommandeDate));
+                StreamWriter sWriter = null;
+                try
+                {
+                    FileStream fileStream = new FileStream("../../../CompanyDetails/CommandesList.csv", FileMode.Append, FileAccess.Write);
 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                if (sWriter != null) sWriter.Close();
+                    sWriter = new StreamWriter(fileStream);
+                    sWriter.Write(string.Format("{0};{1};{2};{3}\n", co.CommandeID, co.Client.NSS, co.Chauffeur.NSS, co.CommandeDate));
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                finally
+                {
+                    if (sWriter != null) sWriter.Close();
+                }
             }
         }
         public Chauffeur AssignDriver(DateTime DateLivraison)
@@ -95,7 +98,7 @@ namespace TransConnect
         {
             foreach (Client c in this.Clients)
             {
-                if (c.NSS == clientNSS);
+                if (c.NSS == clientNSS)
                 {
                     return c;
                 }
@@ -155,7 +158,10 @@ namespace TransConnect
                 try
                 {
                     Chauffeur c = s as Chauffeur;
-                    Console.WriteLine(c.Name + " as done " + c.NumberOfDeliveries + " deliveries");
+                    if (c != null)
+                    {
+                        Console.WriteLine(c.Name + " as done " + c.NumberOfDeliveries + " deliveries");
+                    }
                 }
                 catch (Exception e)
                 {
