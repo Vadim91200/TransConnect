@@ -1,20 +1,22 @@
 ﻿using System.Formats.Asn1;
+using System.Reflection.Metadata.Ecma335;
 
 namespace TransConnect
 {
     public class Client : Personne
     {
         private List<Livraison> deliveries;
-        private int TotalAmount;
+        private int totalAmount;
         public Client(long NSS, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, int telephone) : base(NSS, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
         {
             this.deliveries = new List<Livraison>();
-            this.TotalAmount = 0;
+            this.totalAmount = 0;
         }
-        public int AmountOfPurchase
+        public int AmountOfPurchase()
         {
-            set { this.deliveries.ForEach(elem => TotalAmount += elem.Price); }
-            get { return TotalAmount; }
+            this.totalAmount = 0;
+            this.deliveries.ForEach(elem => totalAmount += elem.Price);
+            return totalAmount;
         }
         public static int AlphabeticalOrderSort(Client a, Client b)
         {
@@ -48,11 +50,11 @@ namespace TransConnect
         }
         public static int AmountOfPurchaseSort(Client a, Client b)
         {
-            if (a.AmountOfPurchase.CompareTo(b.AmountOfPurchase) > 0)
+            if (a.AmountOfPurchase().CompareTo(b.AmountOfPurchase()) > 0)
             {
                 return 1;
             }
-            else if (a.AmountOfPurchase.CompareTo(b.AmountOfPurchase) == 0)
+            else if (a.AmountOfPurchase().CompareTo(b.AmountOfPurchase()) == 0)
             {
                 return 1;
             }
@@ -80,6 +82,7 @@ namespace TransConnect
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine("Un error occured while trying to add Client in a file");
                     Console.WriteLine(e.Message);
                 }
                 finally

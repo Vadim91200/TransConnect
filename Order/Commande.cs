@@ -19,10 +19,7 @@ namespace TransConnect
             this.commandedate = date;
             this.commandeID = nbr;
         }
-        public int Price
-        {
-            get { return this.chauffeur.getTJ * deliverie.Distance; }
-        }
+        public int Price { get => this.chauffeur.getTJ * deliverie.Distance;}
         public Client Client { get => client; }
         public int Id { get => commandeID; }
         public DateTime CommandeDate { get { return this.commandedate; } }

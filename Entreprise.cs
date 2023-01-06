@@ -63,6 +63,7 @@ namespace TransConnect
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine("Un error occured while trying to add an Order in a file");
                     Console.WriteLine(e.Message);
                 }
                 finally
@@ -88,6 +89,7 @@ namespace TransConnect
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine("Un error occured while trying to Assign a Driver");
                     Console.WriteLine(e.Message);
                 }
 
@@ -165,6 +167,7 @@ namespace TransConnect
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine("Un error occured while trying to display the number of deliveries made per driver");
                     Console.WriteLine(e.Message);
                 }
             }
@@ -193,7 +196,7 @@ namespace TransConnect
             double sum = 0;
             foreach (Client c in this.Clients)
             {
-                sum += c.AmountOfPurchase;
+                sum += c.AmountOfPurchase();
             }
             Console.WriteLine("The average price of the orders is " + sum / this.Clients.Count);
         }

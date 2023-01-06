@@ -19,25 +19,10 @@
             this.adresseMail = adresseMail;
             this.phone = telephone;
         }
-        public long NSS
-        {
-            get { return this.nss; }
-        }
-        public string Name
-        {
-            get { return this.name; }
-        }
-        public string Surname
-        {
-            get { return this.surname; }
-        }
-        public string City
-        {
-            get { return this.postaladdress.Split(' ')[3]; }
-        }
-        public string PostalAddress
-        {
-            get { return this.postaladdress; }
-        }
+        public long NSS { get => nss; }
+        public string Name { get => this.name; }
+        public string Surname { get => this.surname; }
+        public string City { get => this.postaladdress.Split(' ')[3]; }
+        public string PostalAddress { get => this.postaladdress; }
     }
 }

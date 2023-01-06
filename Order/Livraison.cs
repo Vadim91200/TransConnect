@@ -65,10 +65,12 @@ namespace TransConnect
             }
             catch (IOException e)
             {
+                Console.WriteLine("Un error occured while trying to open Distances.csv file");
                 Console.WriteLine(e.Message);
             }
             catch (Exception e)
             {
+                Console.WriteLine("Un error occured while trying to CalculateDistance");
                 Console.WriteLine(e.Message);
             }
             finally
@@ -182,6 +184,7 @@ namespace TransConnect
             }
             catch (Exception e)
             {
+                Console.WriteLine("Un error occured while trying to add new city");
                 Console.WriteLine(e.Message);
             }
             finally
