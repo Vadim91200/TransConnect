@@ -188,7 +188,7 @@ void GetCommandesList(Entreprise TC)
     }
     catch (IOException e)
     {
-        using (FileStream fs = File.Create(file)) ;
+        using (FileStream fs = File.Create(file));
     }
     catch (Exception e)
     {

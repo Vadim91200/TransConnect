@@ -153,7 +153,7 @@ namespace TransConnect
         }
         public void DisplayNumberOfDeliveriesMadePerDriver()
         {
-            foreach (Salarie s in this.Salaries.CEO.DirectReports)
+            foreach (Salarie s in this.Salaries.GetAllEmployees(this.Salaries.CEO))
             {
                 try
                 {
