@@ -9,7 +9,7 @@ namespace TransConnect
         private string title;
         private List<Salarie> directreports;
         private Salarie manager;
-        private int salaire { get; set; }
+        private int salaire;
         public Salarie(long NSS, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, int telephone, DateTime dateEntree, string poste, int salaire, Salarie manager) : base(NSS, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
         {
             this.dateEntree = dateEntree;
@@ -42,6 +42,7 @@ namespace TransConnect
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine("Un error occured while trying to add Employee in a file");
                     Console.WriteLine(e.Message);
                 }
                 finally
