@@ -24,6 +24,7 @@ namespace TransConnect
         public int Id { get => commandeID; }
         public DateTime CommandeDate { get { return this.commandedate; } }
         public Livraison Deliverie { get => deliverie; }
+        public Vehicule Vehicule { get => vehicule; }
         public Salarie Chauffeur { get => chauffeur; }
         public int CommandeID { get => commandeID; }
         public void DisplayStatus()

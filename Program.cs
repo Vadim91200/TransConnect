@@ -133,7 +133,7 @@ internal class Program
             while ((line = sReader.ReadLine()) != null)
             {
                 string[] words = line.Split(';');
-                TC.BuyVehicle(words);
+                TC.BuyVehicle(Vehicule.ParseFromArrayString(words));
             }
         }
         catch (IOException e)
@@ -193,7 +193,7 @@ internal class Program
             while ((line = sReader.ReadLine()) != null)
             {
                 string[] OrderDetails = line.Split(';');
-                Commande c = new Commande(TC.FindClient(Int64.Parse(OrderDetails[1])), GetDeliveryList(Int32.Parse(OrderDetails[0])), new Voiture(4), (Chauffeur)TC.Salaries.FindEmployeeBySocialSecurityNumber(Int64.Parse(OrderDetails[2]), TC.Salaries.CEO), IConvert.ConvertTo<DateTime>(OrderDetails[3]), Int32.Parse(OrderDetails[0]));
+                Commande c = new Commande(TC.FindClient(Int64.Parse(OrderDetails[1])), GetDeliveryList(Int32.Parse(OrderDetails[0])), TC.FindVehicle(Int32.Parse(OrderDetails[3])), (Chauffeur)TC.Salaries.FindEmployeeBySocialSecurityNumber(Int64.Parse(OrderDetails[2]), TC.Salaries.CEO), IConvert.ConvertTo<DateTime>(OrderDetails[4]), Int32.Parse(OrderDetails[0]));
                 TC.PlaceOrder(c, false);
             }
         }
@@ -325,7 +325,7 @@ internal class Program
                     Console.WriteLine("Enter the SSN of the client");
                     clientNSS = Console.ReadLine();
                 } while (!IsAValidInput(clientNSS, TypeCode.Int64, 1000000000000));
-                TransConnect.PlaceOrder(new Commande(TransConnect.FindClient(Int64.Parse(clientNSS)), l, new Voiture(4), TransConnect.AssignDriver(l.DeliveryDate), DateTime.Now, l.DeliveryID), true);
+                TransConnect.PlaceOrder(new Commande(TransConnect.FindClient(Int64.Parse(clientNSS)), l, TransConnect.AssignVehicule(), TransConnect.AssignDriver(l.DeliveryDate), DateTime.Now, l.DeliveryID), true);
                 break;
             case "2":
                 string orderid;
@@ -415,25 +415,26 @@ internal class Program
         do
         {
             Console.WriteLine("Select what you want to do with the other module: ");
-            Console.WriteLine("1 : Not implemented");
-            Console.WriteLine("2 : Not implemented");
-            Console.WriteLine("3 : Not implemented");
-            Console.WriteLine("4 : Not implemented");
+            Console.WriteLine("1 : Add a new vehicle");
+            Console.WriteLine("2 : Display the list of vehicles");
+            Console.WriteLine("3 : Display the list of available destination");
+            Console.WriteLine("4 : Add a new destination");
             reponse = Console.ReadLine();
         } while (IsAValidInput(reponse, TypeCode.Int64, 4));
         switch (reponse)
         {
             case "1":
-                //TransConnect;
+                TransConnect.BuyVehicle(Vehicule.CreateVehicleFromInput()); ;
                 break;
             case "2":
-                //TransConnect;
+                Console.WriteLine("The application has the following vehicles: ");
+                TransConnect.Vehicules.ForEach(x => Console.WriteLine(x.ToString()));
                 break;
             case "3":
-                //TransConnect;
+                FileInteraction.DisplayDistination();
                 break;
             case "4":
-                //TransConnect;
+                FileInteraction.AddNewCity();
                 break;
             default:
                 Console.WriteLine("Error index not reconised");

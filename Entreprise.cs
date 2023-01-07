@@ -1,5 +1,7 @@
 using Microsoft.VisualBasic;
+using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography.X509Certificates;
 
 namespace TransConnect
 {
@@ -7,17 +9,18 @@ namespace TransConnect
     {
         private List<Client> Clients;
         private OrganizationChart salaries;
-        private List<Vehicule> Vehicules;
+        private List<Vehicule> vehicules;
         private List<Commande> Commandes;
 
         public Entreprise()
         {
             this.Clients = new List<Client>();
-            this.salaries = new OrganizationChart(new Salarie(1801191547687, "Dupont", "Jean", new DateTime(1980,11,14), "12 rue des oliviers Bures-sur-Yvette 91440", "jean.dupon@transconnect.com", 0647875421,  new DateTime(2022,01,01), "CEO", 1000000, null));
-            this.Vehicules = new List<Vehicule>();
+            this.salaries = new OrganizationChart(new Salarie(1801191547687, "Dupont", "Jean", new DateTime(1980, 11, 14), "12 rue des oliviers Bures-sur-Yvette 91440", "jean.dupon@transconnect.com", 0647875421, new DateTime(2022, 01, 01), "CEO", 1000000, null));
+            this.vehicules = new List<Vehicule>();
             this.Commandes = new List<Commande>();
         }
         public OrganizationChart Salaries { get => salaries; }
+        public List<Vehicule> Vehicules { get => vehicules;}
         public void DisplayOrganisationchart()
         {
             this.Salaries.DisplayOrganizationChart(this.Salaries.CEO);
@@ -26,7 +29,7 @@ namespace TransConnect
         {
             this.Salaries.FireEmployee(NSS);
         }
-        
+
         public void AddClient(Client client)
         {
             this.Clients.Add(client);
@@ -58,7 +61,7 @@ namespace TransConnect
                     FileStream fileStream = new FileStream("../../../CompanyDetails/CommandesList.csv", FileMode.Append, FileAccess.Write);
 
                     sWriter = new StreamWriter(fileStream);
-                    sWriter.Write(string.Format("{0};{1};{2};{3}\n", co.CommandeID, co.Client.NSS, co.Chauffeur.NSS, co.CommandeDate));
+                    sWriter.Write(string.Format("{0};{1};{2};{3};{4}\n", co.CommandeID, co.Client.NSS, co.Chauffeur.NSS, co.Vehicule.Id, co.CommandeDate));
 
                 }
                 catch (Exception e)
@@ -108,9 +111,76 @@ namespace TransConnect
             Console.WriteLine("Client not found, creating new client");
             return Client.CreateClientFromInput();
         }
-        public void BuyVehicle(string[] VehicleInformation)
+        public Vehicule FindVehicle(int vnumber)
         {
-            //this.Salaries.Add(new Vehicule(VehicleInformation));
+            return this.Vehicules.Find(vehicle => vehicle.Id == vnumber);
+        }
+        public void BuyVehicle(Vehicule v)
+        {
+            this.Vehicules.Add(v);
+        }
+        public Vehicule AssignVehicule()
+        {
+            do
+            {
+                Console.WriteLine("What type of vehicle do your order need ?");
+                string input = Console.ReadLine();
+                if (input.ToUpper() == "VOITURE")
+                {
+                    foreach (Vehicule x in this.Vehicules)
+                    {
+                        Voiture v = x as Voiture;
+                        if (v != null)
+                        {
+                            return v;
+                        }
+                    }
+                }
+                else if (input.ToUpper() == "CAMIONNETTE")
+                {
+                    foreach (Vehicule v in this.Vehicules)
+                    {
+                        Camionnette c = v as Camionnette;
+                        if (c != null)
+                        {
+                            return c;
+                        }
+                    }
+                }
+                else if (input.ToUpper() == "CAMMIONCITERNE")
+                {
+                    foreach (Vehicule v in this.Vehicules)
+                    {
+                        Camion_citerne c = v as Camion_citerne;
+                        if (c != null)
+                        {
+                            return c;
+                        }
+                    }
+                }
+                else if (input.ToUpper() == "CAMMIONFRIGORIFIQUE")
+                {
+                    foreach (Vehicule v in this.Vehicules)
+                    {
+                        Camion_frigorifique c = v as Camion_frigorifique;
+                        if (c != null)
+                        {
+                            return c;
+                        }
+                    }
+                }
+                else if (input.ToUpper() == "CAMMIONBENNE")
+                {
+                    foreach (Vehicule v in this.Vehicules)
+                    {
+                        Camion_benne c = v as Camion_benne;
+                        if (c != null)
+                        {
+                            return c;
+                        }
+                    }
+                }
+            } while (true);
         }
         public void DisplayClientsByAlphabeticalOrder()
         {
