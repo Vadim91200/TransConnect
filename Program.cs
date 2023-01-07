@@ -133,7 +133,7 @@ internal class Program
             while ((line = sReader.ReadLine()) != null)
             {
                 string[] words = line.Split(';');
-                TC.BuyVehicle(Vehicule.ParseFromArrayString(words));
+                TC.BuyVehicle(Vehicule.ParseFromArrayString(words, true));
             }
         }
         catch (IOException e)
@@ -419,12 +419,13 @@ internal class Program
             Console.WriteLine("2 : Display the list of vehicles");
             Console.WriteLine("3 : Display the list of available destination");
             Console.WriteLine("4 : Add a new destination");
+            Console.WriteLine("5 : Mark an order as paid");
             reponse = Console.ReadLine();
-        } while (IsAValidInput(reponse, TypeCode.Int64, 4));
+        } while (IsAValidInput(reponse, TypeCode.Int64, 5));
         switch (reponse)
         {
             case "1":
-                TransConnect.BuyVehicle(Vehicule.CreateVehicleFromInput()); ;
+                TransConnect.BuyVehicle(Vehicule.CreateVehicleFromInput());
                 break;
             case "2":
                 Console.WriteLine("The application has the following vehicles: ");
@@ -435,6 +436,15 @@ internal class Program
                 break;
             case "4":
                 FileInteraction.AddNewCity();
+                break;
+            case "5":
+                string OrderID;
+                do
+                {
+                    Console.WriteLine("Enter the id of the order you want to mark as paid");
+                    OrderID = Console.ReadLine();
+                } while (IsAValidInput(OrderID, TypeCode.Int64, 999999));
+                TransConnect.CloseDelivery(Int32.Parse(OrderID));
                 break;
             default:
                 Console.WriteLine("Error index not reconised");

@@ -8,6 +8,10 @@ namespace TransConnect
         {
             this.type = type;
         }
+        public override string ToString()
+        {
+            return base.ToString() + " is a " + this.type;
+        }
     }
 }
 

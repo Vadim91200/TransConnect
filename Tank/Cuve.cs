@@ -8,5 +8,9 @@ namespace TransConnect
         {
             this.Cuvetype = type;
         }
+        public override string ToString()
+        {
+            return this.Cuvetype;
+        }
     }
 }

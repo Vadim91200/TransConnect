@@ -11,7 +11,11 @@ namespace TransConnect
             this.model = model;
             this.nbrplace = nbrplace;
         }
-        public int Id { get => id; }
+        public int Id { get => id; set => id = value; }
+        public override string ToString()
+        {
+            return this.model + " With " + this.nbrplace + " place ";
+        }
         public static Vehicule CreateVehicleFromInput()
         {
             string[] VehicleDetails;
@@ -23,7 +27,7 @@ namespace TransConnect
                 StreamWriter sWriter = null;
                 try
                 {
-                    EnteredVehicle = ParseFromArrayString(VehicleDetails);
+                    EnteredVehicle = ParseFromArrayString(VehicleDetails, false);
                     FileStream fileStream = new FileStream("../../../CompanyDetails/VehiclesList.csv", FileMode.Append, FileAccess.Write);
 
                     sWriter = new StreamWriter(fileStream);
@@ -42,37 +46,84 @@ namespace TransConnect
             } while (EnteredVehicle == null);
             return EnteredVehicle;
         }
-        public static Vehicule ParseFromArrayString(string[] ObjectDetails)
+        public static Vehicule ParseFromArrayString(string[] ObjectDetails, bool nbr)
         {
-            int id = IConvert.ConvertTo<int>(ObjectDetails[0]);
-            string Model = IConvert.ConvertTo<string>(ObjectDetails[1]).Trim();
-            int Number_of_place = IConvert.ConvertTo<int>(ObjectDetails[2]);
-            string Type = (IConvert.ConvertTo<string>(ObjectDetails[3])).Trim();
-            if (Type.ToUpper() == "VOITURE")
+            if (nbr)
             {
-                return new Voiture(Model, Number_of_place);
-            }
-            else if (Type.ToUpper() == "CAMIONNETTE")
-            {
-                string Usage = (IConvert.ConvertTo<string>(ObjectDetails[4])).Trim();
-                return new Camionnette(Model, Number_of_place, Usage);
-            }
-            else if (Type.ToUpper() == "CAMMIONCITERNE")
-            {
-                Cuve Cuve = IConvert.ConvertTo<Cuve>(ObjectDetails[4]);
-                return new Camion_citerne(Model, Number_of_place, "Citerne", Cuve);
-            }
-            else if (Type.ToUpper() == "CAMMIONFRIGORIFIQUE")
-            {
-                return new Camion_frigorifique(Model, Number_of_place, "Frigorifique");
-            }
-            else if (Type.ToUpper() == "CAMMIONBENNE")
-            {
-                return new Camion_benne(Model, Number_of_place, "Benne");
+                int id = IConvert.ConvertTo<int>(ObjectDetails[0]);
+                string Model = IConvert.ConvertTo<string>(ObjectDetails[1]).Trim();
+                int Number_of_place = IConvert.ConvertTo<int>(ObjectDetails[2]);
+                string Type = (IConvert.ConvertTo<string>(ObjectDetails[3])).Trim();
+
+                if (Type.ToUpper() == "VOITURE")
+                {
+                    Vehicule v = new Voiture(Model, Number_of_place);
+                    v.id = id;
+                    return v;
+                }
+                else if (Type.ToUpper() == "CAMIONNETTE")
+                {
+                    string Usage = (IConvert.ConvertTo<string>(ObjectDetails[4])).Trim();
+                    Vehicule v =  new Camionnette(Model, Number_of_place, Usage);
+                    v.id = id;
+                    return v;
+                }
+                else if (Type.ToUpper() == "CAMMIONCITERNE")
+                {
+                    Cuve Cuve = IConvert.ConvertTo<Cuve>(ObjectDetails[4]);
+                    Vehicule v = new Camion_citerne(Model, Number_of_place, "Citerne", Cuve);
+                    v.id = id;
+                    return v;
+                }
+                else if (Type.ToUpper() == "CAMMIONFRIGORIFIQUE")
+                {
+                    Vehicule v = new Camion_frigorifique(Model, Number_of_place, "Frigorifique");
+                    v.id = id;
+                    return v;
+                }
+                else if (Type.ToUpper() == "CAMMIONBENNE")
+                {
+                    Vehicule v = new Camion_benne(Model, Number_of_place, "Benne");
+                    v.id = id;
+                    return v;
+                }
+                else
+                {
+                    return null;
+                }
             }
             else
             {
-                return null;
+                string Model = IConvert.ConvertTo<string>(ObjectDetails[0]).Trim();
+                int Number_of_place = IConvert.ConvertTo<int>(ObjectDetails[1]);
+                string Type = (IConvert.ConvertTo<string>(ObjectDetails[2])).Trim();
+
+                if (Type.ToUpper() == "VOITURE")
+                {
+                    return new Voiture(Model, Number_of_place);
+                }
+                else if (Type.ToUpper() == "CAMIONNETTE")
+                {
+                    string Usage = (IConvert.ConvertTo<string>(ObjectDetails[4])).Trim();
+                    return new Camionnette(Model, Number_of_place, Usage);
+                }
+                else if (Type.ToUpper() == "CAMMIONCITERNE")
+                {
+                    Cuve Cuve = IConvert.ConvertTo<Cuve>(ObjectDetails[4]);
+                    return new Camion_citerne(Model, Number_of_place, "Citerne", Cuve);
+                }
+                else if (Type.ToUpper() == "CAMMIONFRIGORIFIQUE")
+                {
+                    return new Camion_frigorifique(Model, Number_of_place, "Frigorifique");
+                }
+                else if (Type.ToUpper() == "CAMMIONBENNE")
+                {
+                    return new Camion_benne(Model, Number_of_place, "Benne");
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
     }

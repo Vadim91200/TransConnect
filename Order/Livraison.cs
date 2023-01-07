@@ -10,13 +10,13 @@ namespace TransConnect
         private string departure;
         private string arrival;
         private int price;
-        private bool ispaid;
+        public bool ispaid { get; set; }
         private TimeSpan duration;
         private DateTime deliverydate;
         private int distance;
         private DateTime Startingdate;
         private List<String> delivery_Route;
-        private string deliveredproduct;
+        public string deliveredproduct{ get; }
         private int deliveryID;
         public DateTime Deliverydate { get => this.deliverydate; set => this.deliverydate = value; }
         public Livraison(string deliveredproduct, string PDepart, string PArrive, DateTime datelivraison)

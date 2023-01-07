@@ -16,6 +16,10 @@
         {
             get { return this.deliverieslist.Count; }
         }
+        public override string ToString()
+        {
+            return base.ToString() + "he has " + this.deliverieslist.Count + " deliveries" + " and a daily rate of " + this.Tarif_Journalié;
+        }
         public bool EstLibre(DateTime d)
         {
             if (this.deliverieslist.Find(Livraison => Livraison.Deliverydate == d) == null)

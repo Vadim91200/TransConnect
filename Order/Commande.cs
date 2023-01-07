@@ -19,7 +19,7 @@ namespace TransConnect
             this.commandedate = date;
             this.commandeID = nbr;
         }
-        public int Price { get => this.chauffeur.getTJ * deliverie.Distance;}
+        public int Price { get => this.chauffeur.getTJ * deliverie.Distance; }
         public Client Client { get => client; }
         public int Id { get => commandeID; }
         public DateTime CommandeDate { get { return this.commandedate; } }
@@ -27,10 +27,20 @@ namespace TransConnect
         public Vehicule Vehicule { get => vehicule; }
         public Salarie Chauffeur { get => chauffeur; }
         public int CommandeID { get => commandeID; }
+        public override string ToString()
+        {
+            return "The order " + this.CommandeID + "Made by " + this.Client.Surname + " for the delivery " + this.Deliverie.deliveredproduct + " with the vehicle " + this.Vehicule.ToString() + " and the driver " + this.Chauffeur.Surname + " on " + this.CommandeDate + " for a price of " + this.Price;
+        }
         public void DisplayStatus()
         {
-            Console.WriteLine("The order " + this.commandeID + " is in progress");
-            Console.WriteLine("Not yet implemented");
+            if (this.deliverie.ispaid)
+            {
+                Console.WriteLine("The order nbr" + this.commandeID + " for" + this.deliverie.deliveredproduct + " is paid");
+            }
+            else
+            {
+                Console.WriteLine("The order " + this.commandeID + "    for the client " + this.client.Name + " who ordered " + this.deliverie.deliveredproduct + " is not paid" + " the delivery date is " + this.deliverie.Deliverydate);
+            }
         }
     }
 }
