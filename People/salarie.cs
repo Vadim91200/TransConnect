@@ -22,6 +22,10 @@ namespace TransConnect
         public string Title { get => title;}
         public List<Salarie> DirectReports { get => directreports; }
         public Salarie Manager { get => manager; set => manager = value; }
+        public override string ToString()
+        {
+            return base.ToString() + "he works as " + this.title + " is manager is " + this.manager.Surname + "he was hired the " + this.dateEntree + " and his salary is " + this.salaire + "€";
+        }
         public static Salarie CreateEmployeeFromInput(Dictionary<string, Salarie> employees)
         {
             string[] EmployeeDetails;

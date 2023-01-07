@@ -182,6 +182,10 @@ namespace TransConnect
                 }
             } while (true);
         }
+        public void CloseDelivery(int CommandeID)
+        {
+            this.Commandes.Find(commande => commande.CommandeID == CommandeID).Deliverie.Paid();
+        }
         public void DisplayClientsByAlphabeticalOrder()
         {
             this.Clients.Sort(Client.AlphabeticalOrderSort);

@@ -12,6 +12,10 @@ namespace TransConnect
             this.deliveries = new List<Livraison>();
             this.totalAmount = 0;
         }
+        public override string ToString()
+        {
+            return base.ToString() + " and has " + this.deliveries.Count + " deliveries" + " and a total order amount of " + AmountOfPurchase();
+        }
         public int AmountOfPurchase()
         {
             this.totalAmount = 0;

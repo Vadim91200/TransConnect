@@ -7,5 +7,9 @@ namespace TransConnect
         {
             this.Usage = Usage;
         }
+        public override string ToString()
+        {
+            return base.ToString() + " is a van that is use for " + this.Usage;
+        }
     }
 }

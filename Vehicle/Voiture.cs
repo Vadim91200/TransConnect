@@ -7,5 +7,9 @@ namespace TransConnect
         {
 
         }
+        public override string ToString()
+        {
+            return base.ToString() + " is a car";
+        }
     }
 }

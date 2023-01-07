@@ -7,6 +7,10 @@ namespace TransConnect
         {
             this.cuve = cuve;
         }
+        public override string ToString()
+        {
+            return base.ToString() + " with a " + this.cuve.ToString();
+        }
     }
 }
 

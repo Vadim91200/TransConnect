@@ -24,5 +24,9 @@
         public string Surname { get => this.surname; }
         public string City { get => this.postaladdress.Split(' ')[3]; }
         public string PostalAddress { get => this.postaladdress; }
+        public override string ToString()
+        {
+            return this.surname + " " + this.name + " with the SSN " + this.nss + " is born the " + this.dateNaissance + " live at " + this.postaladdress + ". Is phone number is " + this.phone + " and email adress is " + this.adresseMail;
+        }
     }
 }
