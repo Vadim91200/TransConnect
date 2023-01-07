@@ -2,11 +2,10 @@ namespace TransConnect
 {
     public class Voiture : Vehicule
     {
-        private int nbrPassagers;
 
-        public Voiture(int nbrPassagers)
+        public Voiture(string model, int nbrplace) :base(model, nbrplace)
         {
-            this.nbrPassagers = nbrPassagers;
+
         }
     }
 }
