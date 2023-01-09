@@ -167,7 +167,7 @@ namespace TransConnect
         }
         public static void DisplayDistination()
         {
-            AccessFile().ForEach(x => Console.WriteLine("Departure " + x[0] + "Destination " + x[1]));
+            AccessFile().ForEach(x => Console.WriteLine("Departure " + x[0] + " Destination " + x[1]));
         }
     }
 }
