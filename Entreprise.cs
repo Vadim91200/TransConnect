@@ -1,4 +1,5 @@
 using Microsoft.VisualBasic;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
@@ -27,6 +28,16 @@ namespace TransConnect
         }
         public void Fire(long NSS)
         {
+            var linesList = File.ReadAllLines("../../../CompanyDetails/EmployeeList.csv").ToList();
+            foreach(string e in linesList)
+            {
+                if (e.Contains(NSS.ToString()))
+                {
+                    linesList.Remove(e);
+                    break;
+                }
+            }
+            File.WriteAllLines("../../../CompanyDetails/EmployeeList.csv", linesList.ToArray());
             this.Salaries.FireEmployee(NSS);
         }
 
@@ -35,7 +46,10 @@ namespace TransConnect
             this.Clients.Add(client);
         }
         public void SuppressionClient(long NSS)
-        {
+        {          
+            var linesList = File.ReadAllLines("../../../CompanyDetails/ClientsList.csv").ToList();
+            linesList.RemoveAt(this.Clients.FindIndex(client => client.NSS == NSS));
+            File.WriteAllLines("../../../CompanyDetails/ClientsList.csv", linesList.ToArray());
             this.Clients.Remove(this.Clients.Find(client => client.NSS == NSS));
         }
         public void ModifierClient(long NSS)
@@ -192,6 +206,7 @@ namespace TransConnect
             foreach (Client client in this.Clients)
             {
                 Console.WriteLine(client.ToString());
+                Console.WriteLine();
             }
         }
         public void DisplayClientsByCity()
@@ -200,6 +215,7 @@ namespace TransConnect
             foreach (Client client in this.Clients)
             {
                 Console.WriteLine(client.ToString());
+                Console.WriteLine();
             }
         }
         public void ModifyOrder(int orderNumber)
@@ -225,6 +241,7 @@ namespace TransConnect
             foreach (Client client in this.Clients)
             {
                 Console.WriteLine(client.ToString());
+                Console.WriteLine();
             }
         }
         public void DisplayNumberOfDeliveriesMadePerDriver()
@@ -253,6 +270,7 @@ namespace TransConnect
                 if (c.CommandeDate >= start && c.CommandeDate <= end)
                 {
                     Console.WriteLine(c.ToString());
+                    Console.WriteLine();
                 }
             }
         }

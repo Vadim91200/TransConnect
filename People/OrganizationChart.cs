@@ -66,9 +66,6 @@ namespace TransConnect
             // Add the current employee to the list
             allEmployees.Add(employee);
 
-            // Add the current employee's direct reports to the list
-            allEmployees.AddRange(employee.DirectReports);
-
             // Recursively add the direct reports' subemployees to the list
             foreach (Salarie directReport in employee.DirectReports)
             {
