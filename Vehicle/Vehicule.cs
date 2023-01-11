@@ -1,21 +1,40 @@
 namespace TransConnect
 {
+    /// <summary>
+    /// The Vehicule class is an abstract class that represents a vehicle.
+    /// </summary>
     public abstract class Vehicule
     {
         private string model;
         private int id;
         private int nbrplace;
+        /// <summary>
+        /// Creates a new instance of the Vehicule class.
+        /// </summary>
+        /// <param name="model">The model of the vehicle.</param>
+        /// <param name="nbrplace">The number of seats in the vehicle.</param>
         public Vehicule(string model, int nbrplace)
         {
             this.id = new Random().Next(0, 999999);
             this.model = model;
             this.nbrplace = nbrplace;
         }
+        /// <summary>
+        /// The unique ID of the vehicle.
+        /// </summary>
         public int Id { get => id; set => id = value; }
+        /// <summary>
+        /// Returns a string representation of the vehicle, including the model and number of seats.
+        /// </summary>
+        /// <returns>A string that includes the model and number of seats of the vehicle</returns>
         public override string ToString()
         {
             return this.model + " With " + this.nbrplace + " place ";
         }
+        /// <summary>
+        /// Creates a new vehicle from input given by the user and append it to the file called "../../../CompanyDetails/VehiclesList.csv"
+        /// </summary>
+        /// <returns> A new instance of the vehicle</returns>
         public static Vehicule CreateVehicleFromInput()
         {
             string[] VehicleDetails;
@@ -46,6 +65,12 @@ namespace TransConnect
             } while (EnteredVehicle == null);
             return EnteredVehicle;
         }
+        /// <summary>
+        /// Create an instance of the vehicle from an array of strings
+        /// </summary>
+        /// <param name="ObjectDetails">Array of string that represent the vehicle details</param>
+        /// <param name="nbr">A boolean indicating whether or not the vehicle has an ID. If true, the first element in the array is assumed to be the ID.</param>
+        /// <returns>An instance of the appropriate vehicle subtype, or null if the type specified in the input is not recognized.</returns>
         public static Vehicule ParseFromArrayString(string[] ObjectDetails, bool nbr)
         {
             if (nbr)
