@@ -51,7 +51,11 @@ internal class Program
         }
     }
 
-
+    /// <summary>
+    /// This function creates a new Entreprise object and populates it with data from various files in the "CompanyDetails" directory.
+    /// If the directory does not exist, it is created.
+    /// </summary>
+    /// <returns>Returns a fully configured Entreprise object.</returns>
     private static Entreprise ConfigureTheCompany()
     {
         Entreprise TC = new Entreprise();
@@ -66,6 +70,11 @@ internal class Program
         GetCommandesList(TC);
         return TC;
     }
+    /// <summary>
+    /// This function reads from a file named "ClientsList.csv" and creates Client objects using the data in the file. 
+    /// These objects are then added to the "TC" Entreprise object. If the file does not exist, it creates the file.
+    /// </summary>
+    /// <param name="TC">The Entreprise object where the newly created Client objects will be added to.</param>
     private static void GetClientsList(Entreprise TC)
     {
         string file = "../../../CompanyDetails/ClientsList.csv";
@@ -93,6 +102,11 @@ internal class Program
             if (sReader != null) { sReader.Close(); }
         }
     }
+    /// <summary>
+    /// This function reads from a file named "EmployeeList.csv" and creates Employee objects using the data in the file.
+    /// These objects are added to the "employeesDictionary" dictionary and the "TC" Entreprise object. If the file does not exist, it creates the file.
+    /// </summary>
+    /// <param name="TC">The Entreprise object where the newly created Employee objects will be added to.</param>
     private static void GetEmployeeList(Entreprise TC)
     {
         string file = "../../../CompanyDetails/EmployeeList.csv";
@@ -122,6 +136,11 @@ internal class Program
             if (sReader != null) { sReader.Close(); }
         }
     }
+    /// <summary>
+    /// This function reads from a file named "VehiclesList.csv" and creates Vehicle objects using the data in the file. 
+    /// These objects are then added to the "TC" Entreprise object. If the file does not exist, it creates the file.
+    /// </summary>
+    /// <param name="TC">The Entreprise object where the newly created Vehicle objects will be added to.</param>
     private static void GetVehiclesList(Entreprise TC)
     {
         string file = "../../../CompanyDetails/VehiclesList.csv";
@@ -138,7 +157,7 @@ internal class Program
         }
         catch (IOException e)
         {
-            using (FileStream fs = File.Create(file));
+            using (FileStream fs = File.Create(file)) ;
         }
         catch (Exception e)
         {
@@ -150,6 +169,12 @@ internal class Program
             if (sReader != null) { sReader.Close(); }
         }
     }
+    /// <summary>
+    /// This function reads from a file named "DeliveryList.csv" and searches for a delivery with the specified OrderID. 
+    /// If a matching delivery is found, it is returned. If the file does not exist, it creates the file.
+    /// </summary>
+    /// <param name="OrderID">The ID of the delivery being searched for.</param>
+    /// <returns>Returns a Livraison object with the specified OrderID if it is found, or null if no matching delivery is found.</returns>
     private static Livraison GetDeliveryList(int OrderID)
     {
         string file = "../../../CompanyDetails/DeliveryList.csv";
@@ -182,6 +207,11 @@ internal class Program
         }
         return null;
     }
+    /// <summary>
+    /// This function reads from a file named "CommandesList.csv" and creates Order objects using the data in the file. 
+    /// These objects are then added to the "TC" Entreprise object. If the file does not exist, it creates the file.
+    /// </summary>
+    /// <param name="TC">The Entreprise object where the newly created Order objects will be added to.</param>
     private static void GetCommandesList(Entreprise TC)
     {
         string file = "../../../CompanyDetails/CommandesList.csv";
@@ -211,6 +241,11 @@ internal class Program
             if (sReader != null) { sReader.Close(); }
         }
     }
+    /// <summary>
+    /// This function provides the user with a menu to interact with the client module of the TransConnect Entreprise object.
+    /// The user can add, delete, modify, and display clients in various ways.
+    /// </summary>
+    /// <param name="TransConnect">The Entreprise object containing the clients to be manipulated.</param>
     private static void ClientModule(Entreprise TransConnect)
     {
         string reponse = "";
@@ -268,6 +303,11 @@ internal class Program
                 break;
         }
     }
+    /// <summary>
+    /// Employee module of the program. 
+    /// Allows the user to display the organisation chart of the company, hire an employee or dismiss an employee.
+    /// </summary>
+    /// <param name="TransConnect">The current instance of the Entreprise class.</param>
     private static void EmployeeModule(Entreprise TransConnect)
     {
         string reponse = "";
@@ -304,6 +344,11 @@ internal class Program
                 break;
         }
     }
+    /// <summary>
+    /// This function provides the user with a menu to interact with the order module of the TransConnect Entreprise object.
+    /// The user can create, modify, and calculate the price of orders.
+    /// </summary>
+    /// <param name="TransConnect">The Entreprise object containing the orders to be manipulated.</param>
     private static void OrderModule(Entreprise TransConnect)
     {
         string reponse = "";
@@ -350,6 +395,11 @@ internal class Program
                 break;
         }
     }
+    /// <summary>
+    /// This function provides the user with a menu to interact with the statistics module of the TransConnect Entreprise object.
+    /// The user can view the number of deliveries made per driver, display all orders within a time period, view average order prices, display average customer accounts, and view a list of orders for a customer.
+    /// </summary>
+    /// <param name="TransConnect">The Entreprise object containing the orders and customers to be analyzed.</param>
     private static void StatisticsModule(Entreprise TransConnect)
     {
         string reponse = "";
@@ -409,6 +459,12 @@ internal class Program
                 break;
         }
     }
+    /// <summary>
+    /// This function provides various options for interacting with the "other" module of the TransConnect program.
+    /// Users can add a new vehicle, display a list of vehicles, display a list of available destinations, add a new destination,
+    /// or mark an order as paid.
+    /// </summary>
+    /// <param name="TransConnect">The current instance of the TransConnect program being used.</param>
     private static void Othermodule(Entreprise TransConnect)
     {
         string reponse = "";
@@ -451,6 +507,13 @@ internal class Program
                 break;
         }
     }
+    /// <summary>
+    /// This function checks whether the input provided by the user is a valid input or not.
+    /// </summary>
+    /// <param name="consoleinput">The input provided by the user as a string.</param>
+    /// <param name="type">The expected type of the input. Can be either a string or an integer.</param>
+    /// <param name="lenght">The length of the input. This can be either the number of elements in a string separated by semicolons, or the maximum value allowed for an integer input.</param>
+    /// <returns>True if the input is valid, false otherwise.</returns>
     private static bool IsAValidInput(string consoleinput, TypeCode type, long lenght)
     {
         if (type == TypeCode.Int64)
