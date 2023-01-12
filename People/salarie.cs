@@ -6,25 +6,22 @@ namespace TransConnect
     public class Salarie: Personne
     {
         private DateTime dateEntree;
-        private string title;
-        private List<Salarie> directreports;
-        private Salarie manager;
+        public string Title { get; set; }
+        public List<Salarie> Directreports { get; set; }
+        public Salarie Manager { get; set; }
         private int salaire;
         public Salarie(long NSS, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, int telephone, DateTime dateEntree, string poste, int salaire, Salarie manager) : base(NSS, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
         {
             this.dateEntree = dateEntree;
-            this.title = poste;
+            this.Title = poste;
             this.salaire = salaire;
-            this.directreports = new List<Salarie>();
-            this.manager = manager;
-            if (this.manager != null) { this.manager.directreports.Add(this); }
+            this.Directreports = new List<Salarie>();
+            this.Manager = manager;
+            if (this.Manager != null) { this.Manager.Directreports.Add(this); }
         }
-        public string Title { get => title;}
-        public List<Salarie> DirectReports { get => directreports; }
-        public Salarie Manager { get => manager; set => manager = value; }
         public override string ToString()
         {
-            return base.ToString() + "he works as " + this.title + " is manager is " + this.manager.Surname + "he was hired the " + this.dateEntree + " and his salary is " + this.salaire + "€";
+            return base.ToString() + "he works as " + this.Title + " is manager is " + this.Manager.Surname + "he was hired the " + this.dateEntree + " and his salary is " + this.salaire + "€";
         }
         public static Salarie CreateEmployeeFromInput(Dictionary<string, Salarie> employees)
         {
@@ -91,7 +88,7 @@ namespace TransConnect
                 {
                     Salarie directReport = employees[directReportName];
                     directReport.Manager = employee;
-                    employee.DirectReports.Add(directReport);
+                    employee.Directreports.Add(directReport);
                 }
             }
             employees[Surname] = employee;

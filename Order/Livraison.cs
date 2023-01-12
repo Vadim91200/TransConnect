@@ -5,52 +5,109 @@ using System.Runtime.CompilerServices;
 
 namespace TransConnect
 {
+    /// <summary>
+    /// The class representing a delivery, it contains information like departure, arrival, price, if it is paid, duration, delivery date, distance and delivery id.
+    /// It also contains methods to pay for the delivery, create a delivery from user input and parse from a string array.
+    /// </summary>
     public class Livraison : IConvert
     {
-        private string departure;
-        private string arrival;
-        private int price;
+        /// <summary>
+        /// Gets or sets the departure city for the delivery.
+        /// </summary>
+        public string Departure { get; set; }
+        /// <summary>
+        /// Gets or sets the arrival city for the delivery.
+        /// </summary>
+        public string Arrival { get; set; }
+        /// <summary>
+        /// Gets or sets the price of the delivery.
+        /// </summary>
+        public int Price { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether the delivery is paid or not.
+        /// </summary>
         public bool ispaid { get; set; }
+        /// <summary>
+        /// private variable that hold the duration of the delivery
+        /// </summary>
         private TimeSpan duration;
-        private DateTime deliverydate;
-        private int distance;
+        /// <summary>
+        /// Gets or sets the delivery date for the delivery.
+        /// </summary>
+        public DateTime Deliverydate { get; set; }
+        /// <summary>
+        /// Gets or sets the distance of the delivery.
+        /// </summary>
+        public int Distance { get; set; }
+        /// <summary>
+        /// private variable that hold the starting date of the delivery.
+        /// </summary>
         private DateTime Startingdate;
+        /// <summary>
+        /// private variable that hold the delivery route.
+        /// </summary>
         private List<String> delivery_Route;
-        public string deliveredproduct{ get; }
-        private int deliveryID;
-        public DateTime Deliverydate { get => this.deliverydate; set => this.deliverydate = value; }
+        /// <summary>
+        /// Gets the delivered product for the delivery.
+        /// </summary>
+        public string Deliveredproduct{ get; }
+        // <summary>
+        /// Gets or sets the delivery id for the delivery.
+        /// </summary>
+        public int DeliveryID { get; set; }
+        /// <summary>
+        /// Creates a new Livraison object with the specified delivered product, departure location, 
+        /// arrival location, and delivery date, and a randomly generated delivery ID.
+        /// </summary>
+        /// <param name="deliveredproduct">The name of the product being delivered.</param>
+        /// <param name="PDepart">The city of departure for the delivery.</param>
+        /// <param name="PArrive">The city of arrival for the delivery.</param>
+        /// <param name="datelivraison">The date of the delivery.</param>
         public Livraison(string deliveredproduct, string PDepart, string PArrive, DateTime datelivraison)
         {
-            this.deliveredproduct = deliveredproduct;
-            this.departure = PDepart;
-            this.arrival = PArrive;
+            this.Deliveredproduct = deliveredproduct;
+            this.Departure = PDepart;
+            this.Arrival = PArrive;
             this.ispaid = false;
             this.Startingdate = DateTime.Now;
-            this.deliverydate = datelivraison;
-            this.deliveryID = new Random().Next(0, 999999);
+            this.Deliverydate = datelivraison;
+            this.DeliveryID = new Random().Next(0, 999999);
         }
+        /// <summary>
+        /// Creates a new Livraison object with the specified delivered product, departure location, 
+        /// arrival location, delivery date, and delivery ID.
+        /// </summary>
+        /// <param name="deliveredproduct">The name of the product being delivered.</param>
+        /// <param name="PDepart">The city of departure for the delivery.</param>
+        /// <param name="PArrive">The city of arrival for the delivery.</param>
+        /// <param name="datelivraison">The date of the delivery.</param>
+        /// <param name="id">The ID of the delivery.</param>
         public Livraison(string deliveredproduct, string PDepart, string PArrive, DateTime datelivraison, int id)
         {
-            this.deliveredproduct = deliveredproduct;
-            this.departure = PDepart;
-            this.arrival = PArrive;
+            this.Deliveredproduct = deliveredproduct;
+            this.Departure = PDepart;
+            this.Arrival = PArrive;
             this.ispaid = false;
             this.Startingdate = DateTime.Now;
-            this.deliverydate = datelivraison;
-            this.deliveryID = id;
+            this.Deliverydate = datelivraison;
+            this.DeliveryID = id;
         }
-        public string Departure { get => this.departure; }
-        public string Arrival { get => this.arrival; }
-        public int Distance { get => this.distance; set => this.distance = value;}
-        public int Price { get => price; set => this.price = value; }
+        /// <summary>
+        /// Gets the duration of the delivery from the starting date to the current date
+        /// </summary>
         public TimeSpan Duration { get => this.Startingdate - DateTime.Now; }
-        public DateTime DeliveryDate { get => this.deliverydate; }
-        public int DeliveryID { get => this.deliveryID; }
+        /// <summary>
+        /// Sets the paid status of the delivery to true and calculates the duration of the delivery
+        /// </summary>
         public void Paid()
         {
             this.ispaid = true;
             this.duration = Startingdate - DateTime.Now;
         }
+        // <summary>
+        /// Creates a new delivery from user input
+        /// </summary>
+        /// <returns>The newly created delivery</returns>
         public static Livraison CreateDeliveryFromInput()
         {
             string[] DeliveryDetails;
@@ -81,7 +138,12 @@ namespace TransConnect
             } while (EnteredDelivery == null);
             return EnteredDelivery;
         }
-
+        /// <summary>
+        /// Parses the delivery details from an array of strings
+        /// </summary>
+        /// <param name="ObjectDetails">The array of strings containing the delivery details</param>
+        /// <param name="nbr">A boolean value indicating whether the delivery ID is included in the array</param>
+        /// <returns>The parsed delivery</returns>
         public static Livraison ParseFromArrayString(String[] ObjectDetails, bool nbr)
         {
             Livraison l = null;

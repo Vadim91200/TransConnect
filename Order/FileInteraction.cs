@@ -4,12 +4,15 @@ using System.Diagnostics;
 
 namespace TransConnect
 {
+    /// <summary>
+    /// Abstract class that defines the basic functionality for interacting with files.
+    /// </summary>
     public abstract class FileInteraction
-    {    
-        public FileInteraction()
-        {
-            
-        }
+    {
+        /// <summary>
+        /// Accesses a file and returns a list of lists of strings, where each inner list represents a line in the file.
+        /// </summary>
+        /// <returns>A list of lists of strings representing the contents of the file.</returns>
         public static List<List<string>> AccessFile()
         {
             StreamReader sReader = null;
@@ -36,6 +39,11 @@ namespace TransConnect
             }
             return null;
         }
+        /// <summary>
+        /// Calculates the distance of a delivery by using the Dijkstra algorithm, given the access of a file
+        /// </summary>
+        /// <param name="l">The delivery for which the distance will be calculated.</param>
+        /// <returns>A list of strings representing the shortest path for the delivery.</returns>
         public static List<string> CalculateDistance(Livraison l)
         {
             try
@@ -51,6 +59,12 @@ namespace TransConnect
             
             return null;
         }
+        /// <summary>
+        /// finds the shortest path between two cities and returns a list of string representing the path
+        /// </summary>
+        /// <param name="routes">List of lists of strings representing the contents of the file</param>
+        /// <param name="l">The delivery for which the distance will be calculated.</param>
+        /// <returns>A list of strings representing the shortest path for the delivery.</returns>
         private static List<string> FindTheSortestPath(List<List<string>> routes, Livraison l)
         {
             //Dijkstra algorithm
@@ -136,6 +150,9 @@ namespace TransConnect
             l.Distance = distances[l.Arrival];
             return path;
         }
+        /// <summary>
+        /// Add a new city route to the "Distances.csv" file by taking input from user for start city, destination city, distance, and duration of the route
+        /// </summary>
         public static void AddNewCity()
         {
             StreamWriter sWriter = null;
@@ -165,6 +182,9 @@ namespace TransConnect
                 if (sWriter != null) sWriter.Close();
             }
         }
+        /// <summary>
+        /// Display the Departure and Destination Cities from the "Distances.csv" file.
+        /// </summary>
         public static void DisplayDistination()
         {
             AccessFile().ForEach(x => Console.WriteLine("Departure " + x[0] + " Destination " + x[1]));

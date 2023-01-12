@@ -2,31 +2,27 @@
 {
     public abstract class Personne : IConvert
     {
-        private long nss;
-        private string name;
-        private string surname;
+        public long Nss { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
         private DateTime dateNaissance;
-        private string postaladdress;
-        private string adresseMail { get; set; }
+        public string Postaladdress { get; set; }
+        private string AdresseMail { get; set; }
         private int phone;
         public Personne(long NSS, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, int telephone)
         {
-            this.nss = NSS;
-            this.surname = nom;
-            this.name = prenom;
+            this.Nss = NSS;
+            this.Surname = nom;
+            this.Name = prenom;
             this.dateNaissance = dateNaissance;
-            this.postaladdress = adressePostale;
-            this.adresseMail = adresseMail;
+            this.Postaladdress = adressePostale;
+            this.AdresseMail = adresseMail;
             this.phone = telephone;
         }
-        public long NSS { get => nss; }
-        public string Name { get => this.name; }
-        public string Surname { get => this.surname; }
-        public string City { get => this.postaladdress.Split(' ')[3]; }
-        public string PostalAddress { get => this.postaladdress; }
+        public string City { get => this.Postaladdress.Split(' ')[3]; }
         public override string ToString()
         {
-            return this.surname + " " + this.name + " with the SSN " + this.nss + " is born the " + this.dateNaissance + " live at " + this.postaladdress + ". Is phone number is " + this.phone + " and email adress is " + this.adresseMail;
+            return this.Surname + " " + this.Name + " with the SSN " + this.Nss + " is born the " + this.dateNaissance + " live at " + this.Postaladdress + ". Is phone number is " + this.phone + " and email adress is " + this.AdresseMail;
         }
     }
 }
