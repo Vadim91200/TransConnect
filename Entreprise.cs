@@ -1,3 +1,5 @@
+using System;
+
 namespace TransConnect
 {
     /// <summary>
@@ -32,7 +34,7 @@ namespace TransConnect
         /// </summary>
         public void DisplayOrganisationchart()
         {
-            this.Salaries.DisplayOrganizationChart(this.Salaries.CEO);
+            this.Salaries.DisplayOrganizationChart(this.Salaries.Ceo);
         }
         /// <summary>
         /// Fires an employee from the company.
@@ -67,9 +69,9 @@ namespace TransConnect
         public void SuppressionClient(long NSS)
         {
             var linesList = File.ReadAllLines("../../../CompanyDetails/ClientsList.csv").ToList();
-            linesList.RemoveAt(this.Clients.FindIndex(client => client.NSS == NSS));
+            linesList.RemoveAt(this.Clients.FindIndex(client => client.Nss == NSS));
             File.WriteAllLines("../../../CompanyDetails/ClientsList.csv", linesList.ToArray());
-            this.Clients.Remove(this.Clients.Find(client => client.NSS == NSS));
+            this.Clients.Remove(this.Clients.Find(client => client.Nss == NSS));
         }
         /// <summary>
         /// Modifies the information of a client in the company's list of clients.
@@ -105,7 +107,7 @@ namespace TransConnect
                     FileStream fileStream = new FileStream("../../../CompanyDetails/CommandesList.csv", FileMode.Append, FileAccess.Write);
 
                     sWriter = new StreamWriter(fileStream);
-                    sWriter.Write(string.Format("{0};{1};{2};{3};{4}\n", co.CommandeID, co.Client.NSS, co.Chauffeur.NSS, co.Vehicule.Id, co.CommandeDate));
+                    sWriter.Write(string.Format("{0};{1};{2};{3};{4}\n", co.CommandeID, co.Client.Nss, co.Chauffeur.Nss, co.Vehicule.Id, co.Commandedate));
 
                 }
                 catch (Exception e)
@@ -126,7 +128,7 @@ namespace TransConnect
         /// <returns>A driver that is available on the specified date, or null if no such driver is found.</returns>
         public Chauffeur AssignDriver(DateTime DateLivraison)
         {
-            foreach (Salarie s in this.Salaries.GetAllEmployees(this.Salaries.CEO))
+            foreach (Salarie s in this.Salaries.GetAllEmployees(this.Salaries.Ceo))
             {
                 try
                 {
@@ -157,7 +159,7 @@ namespace TransConnect
         {
             foreach (Client c in this.Clients)
             {
-                if (c.NSS == clientNSS)
+                if (c.Nss == clientNSS)
                 {
                     return c;
                 }
@@ -247,6 +249,7 @@ namespace TransConnect
                         }
                     }
                 }
+                Console.WriteLine("Impossible to Assign a vehicle no vehicule in the app or syntax error");
             } while (true);
         }
         /// <summary>
@@ -280,7 +283,7 @@ namespace TransConnect
         /// <param name="orderNumber">The ID number of the order to modify.</param>
         public void ModifyOrder(int orderNumber)
         {
-            Commande c = this.Commandes.Find(commande => commande.Id == orderNumber);
+            Commande c = this.Commandes.Find(commande => commande.CommandeID == orderNumber);
             if (c != null)
             {
                 Console.WriteLine("Enter the new date of delivery");
@@ -297,7 +300,7 @@ namespace TransConnect
         /// <param name="orderid">The ID number of the order to display.</param>
         public void DisplayOrderStatus(int orderid)
         {
-            this.Commandes.Find(Commande => Commande.Id == orderid).DisplayStatus();
+            this.Commandes.Find(Commande => Commande.CommandeID == orderid).DisplayStatus();
         }
         /// <summary>
         /// Displays the clients sorted by amount of purchase in ascending order.
@@ -312,7 +315,7 @@ namespace TransConnect
         /// </summary>
         public void DisplayNumberOfDeliveriesMadePerDriver()
         {
-            foreach (Salarie s in this.Salaries.GetAllEmployees(this.Salaries.CEO))
+            foreach (Salarie s in this.Salaries.GetAllEmployees(this.Salaries.Ceo))
             {
                 try
                 {
@@ -338,7 +341,7 @@ namespace TransConnect
         {
             foreach (Commande c in this.Commandes)
             {
-                if (c.CommandeDate >= start && c.CommandeDate <= end)
+                if (c.Commandedate >= start && c.Commandedate <= end)
                 {
                     Console.WriteLine(c.ToString());
                     Console.WriteLine();
@@ -375,10 +378,10 @@ namespace TransConnect
         /// <param name="NSS">The National Social Security Number of the client.</param>
         public void DisplayTheListOfOrdersForACustomer(long NSS)
         {
-            Console.WriteLine("The customer " + this.Clients.Find(client => client.NSS == NSS).Name + " has made the following orders :");
+            Console.WriteLine("The customer " + this.Clients.Find(client => client.Nss == NSS).Name + " has made the following orders :");
             foreach (Commande c in this.Commandes)
             {
-                if (c.Client.NSS == NSS)
+                if (c.Client.Nss == NSS)
                 {
                     Console.WriteLine(c.ToString());
                 }

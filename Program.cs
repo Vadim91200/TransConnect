@@ -116,7 +116,7 @@ internal class Program
             sReader = new StreamReader(file);
             string line;
             Dictionary<string, Salarie> employeesDictionary = new Dictionary<string, Salarie>();
-            employeesDictionary.Add(TC.Salaries.CEO.Surname, TC.Salaries.CEO);
+            employeesDictionary.Add(TC.Salaries.Ceo.Surname, TC.Salaries.Ceo);
             while ((line = sReader.ReadLine()) != null)
             {
                 Salarie.ParseFromArrayString(line.Split(';'), employeesDictionary);
@@ -223,7 +223,7 @@ internal class Program
             while ((line = sReader.ReadLine()) != null)
             {
                 string[] OrderDetails = line.Split(';');
-                Commande c = new Commande(TC.FindClient(Int64.Parse(OrderDetails[1])), GetDeliveryList(Int32.Parse(OrderDetails[0])), TC.FindVehicle(Int32.Parse(OrderDetails[3])), (Chauffeur)TC.Salaries.FindEmployeeBySocialSecurityNumber(Int64.Parse(OrderDetails[2]), TC.Salaries.CEO), IConvert.ConvertTo<DateTime>(OrderDetails[4]), Int32.Parse(OrderDetails[0]));
+                Commande c = new Commande(TC.FindClient(Int64.Parse(OrderDetails[1])), GetDeliveryList(Int32.Parse(OrderDetails[0])), TC.FindVehicle(Int32.Parse(OrderDetails[3])), (Chauffeur)TC.Salaries.FindEmployeeBySocialSecurityNumber(Int64.Parse(OrderDetails[2]), TC.Salaries.Ceo), IConvert.ConvertTo<DateTime>(OrderDetails[4]), Int32.Parse(OrderDetails[0]));
                 TC.PlaceOrder(c, false);
             }
         }
@@ -326,8 +326,8 @@ internal class Program
                 break;
             case "2":
                 Dictionary<string, Salarie> employeesDictionary = new Dictionary<string, Salarie>();
-                employeesDictionary.Add(TransConnect.Salaries.CEO.Surname, TransConnect.Salaries.CEO);
-                TransConnect.Salaries.CEO.DirectReports.ForEach(x => employeesDictionary.Add(x.Surname, x));
+                employeesDictionary.Add(TransConnect.Salaries.Ceo.Surname, TransConnect.Salaries.Ceo);
+                TransConnect.Salaries.Ceo.Directreports.ForEach(x => employeesDictionary.Add(x.Surname, x));
                 Salarie.CreateEmployeeFromInput(employeesDictionary);
                 break;
             case "3":
@@ -370,7 +370,7 @@ internal class Program
                     Console.WriteLine("Enter the SSN of the client");
                     clientNSS = Console.ReadLine();
                 } while (!IsAValidInput(clientNSS, TypeCode.Int64, 1000000000000));
-                TransConnect.PlaceOrder(new Commande(TransConnect.FindClient(Int64.Parse(clientNSS)), l, TransConnect.AssignVehicule(), TransConnect.AssignDriver(l.DeliveryDate), DateTime.Now, l.DeliveryID), true);
+                TransConnect.PlaceOrder(new Commande(TransConnect.FindClient(Int64.Parse(clientNSS)), l, TransConnect.AssignVehicule(), TransConnect.AssignDriver(l.Deliverydate), DateTime.Now, l.DeliveryID), true);
                 break;
             case "2":
                 string orderid;

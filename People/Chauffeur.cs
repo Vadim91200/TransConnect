@@ -5,7 +5,7 @@
     /// </summary>
     public class Chauffeur : Salarie
     {
-        public int Tarif_Journalié { get; set; }
+        public int Daily_rate { get; set; }
         private List<Livraison> deliverieslist;
         /// <summary>
         /// Initializes a new instance of the <see cref="chauffeur"/> class
@@ -38,7 +38,7 @@
         /// <returns>A string containing the chauffeur's number of deliveries and daily rate</returns>
         public override string ToString()
         {
-            return base.ToString() + "he has " + this.deliverieslist.Count + " deliveries" + " and a daily rate of " + this.Tarif_Journalié;
+            return base.ToString() + "he has " + this.deliverieslist.Count + " deliveries" + " and a daily rate of " + this.Daily_rate;
         }
         /// <summary>
         /// Determines if the chauffeur is free on a given date
